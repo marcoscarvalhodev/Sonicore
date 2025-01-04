@@ -1,10 +1,20 @@
 import './style.css';
-import { CanvasAnimations } from './canvasScene.ts';
+import { Hero } from './contentResources/Hero.ts';
+import { Nav } from './contentResources/Nav.ts';
+import { Characteristics } from './contentResources/Characteristics.ts';
+import Structure from './Structure/Structure.ts';
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div id="sonicore-canvas" class=" bg-blue-400 w-screen h-screen">
-    
+  <div >
+  <canvas class="webgl"></canvas>
+    <main class="main-section px-[72px]"></main>
   </div>
 `;
 
-CanvasAnimations.canvasScene();
+Nav();
+Hero();
+Characteristics();
+
+new Structure({
+  canvas: document!.querySelector('canvas.webgl'),
+});
