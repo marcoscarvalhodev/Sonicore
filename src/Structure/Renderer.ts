@@ -23,9 +23,14 @@ export default class Renderer {
       canvas: this.canvas as HTMLCanvasElement,
       antialias: true,
       alpha: true,
+      
     });
 
-    this.instance.outputColorSpace = THREE.LinearSRGBColorSpace;
+    this.instance.outputColorSpace = THREE.SRGBColorSpace;
+    this.instance.toneMapping = THREE.CineonToneMapping;
+    this.instance.toneMappingExposure = 1.2;
+    this.instance.shadowMap.enabled = true;
+    this.instance.shadowMap.type = THREE.PCFSoftShadowMap;
 
     this.instance.setSize(this.sizes.width, this.sizes.height);
   }

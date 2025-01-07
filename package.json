@@ -19,8 +19,10 @@
     "autoprefixer": "^10.4.20",
     "express": "^4.21.2",
     "gsap": "^3.12.5",
+    "lenis": "^1.1.18",
     "postcss": "^8.4.49",
     "postcss-cli": "^11.0.0",
+    "postprocessing": "^6.36.6",
     "three": "^0.172.0"
   }
 }
