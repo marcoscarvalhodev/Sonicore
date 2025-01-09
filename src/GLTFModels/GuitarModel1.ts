@@ -1,53 +1,58 @@
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/Addons.js';
-import { DRACOLoader } from 'three/examples/jsm/Addons.js';
 import Structure from '../Structure/Structure';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
+import { ItemsProps } from '../Structure/Loaders/Loaders';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default class GuitarModel1 {
   public scene;
   public model: THREE.Group<THREE.Object3DEventMap> | null;
-  public texture;
   public time;
-  public textureMap;
-  public textureNormal;
-  public textureRoughness;
+  public textureMap: undefined | THREE.Texture;
+  public roughnessMap: undefined | THREE.Texture;
+  public structure;
+  public loaders;
+  public loader: ItemsProps | null;
 
   constructor(structure: Structure) {
+    this.structure = structure;
+    this.loaders = this.structure.loaders;
+    this.loader = null;
     this.scene = structure.scene;
     this.model = null;
     this.time = structure.time;
-    this.texture = new THREE.TextureLoader();
-    this.textureMap = this.texture.load('/textures/base_color_3.jpg');
-    this.textureRoughness = this.texture.load('/textures/guitar_roughness.png');
-    this.textureNormal = this.texture.load('/textures/guitar_normal.png');
+    this.textureMap = undefined;
+    this.roughnessMap = undefined;
 
-    this.AnimationGuitar(() => {});
+    this.loader = this.loaders.items;
+    this.setTextures();
+    this.setModel();
+    this.LenisGuitar();
+    this.GsapGuitar();
   }
 
-  AnimationGuitar(onLoadCallback: () => void) {
-    const gltfLoader = new GLTFLoader();
-    const dracoLoader = new DRACOLoader();
-
-    dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
-    gltfLoader.setDRACOLoader(dracoLoader);
-
-    gltfLoader.load('/models/sonicore.glb', (gltf) => {
-      this.model = gltf.scene;
-
+  setTextures() {
+    if (this.loader) {
+      this.roughnessMap = this.loader.guitar_1_roughnessMap;
+      this.textureMap = this.loader.texture_base_1;
       this.textureMap.flipY = false;
-      this.model.frustumCulled = false;
+    }
+  }
 
+  setModel() {
+    if (this.loader) {
+      this.model = this.loader.model_guitar_1.scene;
+      this.model.frustumCulled = false;
       this.model.traverse((child) => {
         if (child instanceof THREE.Mesh) {
           child.material = new THREE.MeshPhysicalMaterial({
-            map: this.textureMap,
-            metalness: 0.9,
             roughness: 0.5,
+            map: this.textureMap,
+            roughnessMap: this.roughnessMap,
+            metalness: 0.6,
             clearcoat: 1,
             clearcoatRoughness: 0.1,
             envMap: this.scene.environment,
@@ -56,21 +61,16 @@ export default class GuitarModel1 {
         }
       });
 
-      this.model.scale.set(0.5, 0.5, 0.5);
-      this.model.rotation.set(-0.3, -1, 1.3);
-      this.model.position.set(-2, 0.5, -0.5);
-      this.model.position.setLength(-1);
-      this.model.castShadow = true;
+      if (this.model) {
+        this.model.scale.set(0.5, 0.5, 0.5);
+        this.model.rotation.set(-0.3, -1, 1.3);
+        this.model.position.set(-2, 0, -0.5);
+        this.model.position.setLength(-1);
+        this.model.castShadow = true;
 
-      this.LenisGuitar();
-      this.GsapGuitar();
-
-      this.scene.add(this.model);
-
-      if (onLoadCallback) {
-        onLoadCallback();
+        this.scene.add(this.model);
       }
-    });
+    }
   }
 
   GuitarAnim() {
@@ -93,20 +93,20 @@ export default class GuitarModel1 {
       tl.to(
         this.model.position,
         {
-          y: this.model.position.y + 0.2,
-          x: this.model.position.x - 2,
-          z: this.model.position.z + 0.8,
-          duration:1,
+          y: this.model.position.y - 0.1,
+          x: this.model.position.x - 1.8,
+          z: this.model.position.z + 0.5,
+          duration: 0.6,
         },
         0
       )
         .to(
           this.model.rotation,
           {
-            y: this.model.rotation.y + 1,
+            y: this.model.rotation.y + 1.1,
             x: this.model.rotation.x - 1.2,
-            z: this.model.rotation.z + 1,
-            duration: 1,
+            z: this.model.rotation.z + 0.7,
+            duration: 0.6,
           },
           0
         )
@@ -115,7 +115,7 @@ export default class GuitarModel1 {
           {
             x: this.model.position.x - 3,
             z: this.model.position.z,
-            y: this.model.position.y,
+            y: this.model.position.y - 0.3,
             duration: 2,
           },
           1.3
@@ -151,5 +151,9 @@ export default class GuitarModel1 {
     gsap.ticker.add((time) => {
       lenis.raf(time * 1000);
     });
+  }
+
+  update() {
+    this.GuitarAnim();
   }
 }
