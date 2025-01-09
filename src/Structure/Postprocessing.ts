@@ -49,6 +49,8 @@ export default class Postprocessing {
       0.1 / (this.height * this.pixelRatio);
 
     this.instance?.addPass(this.fxaaPass);
+
+    this.fxaaPass.renderToScreen = true;
   }
 
   SetBokehPass() {
