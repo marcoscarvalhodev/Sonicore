@@ -13,7 +13,22 @@ export const sources = [
   {
     type: sourcesType.TextureLoader,
     name: 'texture_base_1',
-    path: '/textures/guitar_base.png',
+    path: '/textures/guitar_base_1.png',
+  },
+  {
+    type: sourcesType.TextureLoader,
+    name: 'texture_base_2',
+    path: '/textures/guitar_base_2.jpg',
+  },
+  {
+    type: sourcesType.TextureLoader,
+    name: 'texture_base_3',
+    path: '/textures/guitar_base_3.jpg',
+  },
+  {
+    type: sourcesType.TextureLoader,
+    name: 'height_map',
+    path: '/textures/heightMap.png',
   },
   {
     type: sourcesType.TextureLoader,

@@ -7,6 +7,9 @@ import { TextureLoader } from 'three';
 export interface ItemsProps {
   draco_model: DRACOLoader;
   texture_base_1: THREE.Texture;
+  texture_base_2: THREE.Texture;
+  texture_base_3: THREE.Texture;
+  height_map: THREE.Texture;
   model_guitar_1: GLTF;
   guitar_1_roughnessMap: THREE.Texture;
   [key: string]: DRACOLoader | THREE.Texture | GLTF;
@@ -23,9 +26,6 @@ export default class Loaders extends EventEmitter {
     dracoLoader: DRACOLoader;
   } | null;
 
-  public textureMap: THREE.Texture | undefined;
-  public textureRoughness: THREE.Texture | undefined;
-
   constructor() {
     super();
 
@@ -34,14 +34,14 @@ export default class Loaders extends EventEmitter {
     this.items = {
       draco_model: null as unknown as DRACOLoader,
       texture_base_1: null as unknown as THREE.Texture,
+      texture_base_2: null as unknown as THREE.Texture,
+      texture_base_3: null as unknown as THREE.Texture,
+      height_map: null as unknown as THREE.Texture,
       model_guitar_1: null as unknown as GLTF,
-      guitar_1_roughnessMap: null as unknown as THREE.Texture
+      guitar_1_roughnessMap: null as unknown as THREE.Texture,
     };
     this.loaded = 0;
     this.toLoad = this.sources.length;
-
-    this.textureMap = undefined;
-    this.textureRoughness = undefined;
 
     this.setLoaders();
     this.startLoading();
@@ -70,14 +70,9 @@ export default class Loaders extends EventEmitter {
           break;
         case 'TextureLoader':
           {
-          
-            this.textureMap = this.loaders?.textureLoader.load(
-              source.path,
-              (file) => {
-                
-                this.sourceLoaded({ source, file });
-              }
-            );
+            this.loaders?.textureLoader.load(source.path, (file) => {
+              this.sourceLoaded({ source, file });
+            });
           }
           break;
         case 'GLTFLoader':
@@ -85,7 +80,6 @@ export default class Loaders extends EventEmitter {
             this.loaders?.gltfLoader.load(source.path, (file) => {
               this.sourceLoaded({ source, file });
             });
-            
           }
           break;
         default:
@@ -107,7 +101,6 @@ export default class Loaders extends EventEmitter {
   }) {
     this.items[source.name] = file;
     this.loaded++;
-    
 
     if (this.loaded === this.toLoad) {
       this.trigger('ready');

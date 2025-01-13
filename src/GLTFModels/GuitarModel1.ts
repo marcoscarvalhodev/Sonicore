@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import { ItemsProps } from '../Structure/Loaders/Loaders';
+import ShaderLoad from '../Structure/ShaderLoad';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,6 +17,7 @@ export default class GuitarModel1 {
   public structure;
   public loaders;
   public loader: ItemsProps | null;
+  public shader;
 
   constructor(structure: Structure) {
     this.structure = structure;
@@ -28,7 +30,9 @@ export default class GuitarModel1 {
     this.roughnessMap = undefined;
 
     this.loader = this.loaders.items;
+
     this.setTextures();
+    this.shader = new ShaderLoad(this.model, structure);
     this.setModel();
     this.LenisGuitar();
     this.GsapGuitar();
@@ -48,16 +52,26 @@ export default class GuitarModel1 {
       this.model.frustumCulled = false;
       this.model.traverse((child) => {
         if (child instanceof THREE.Mesh) {
-          child.material = new THREE.MeshPhysicalMaterial({
-            roughness: 0.5,
-            map: this.textureMap,
-            roughnessMap: this.roughnessMap,
-            metalness: 0.6,
-            clearcoat: 1,
-            clearcoatRoughness: 0.1,
-            envMap: this.scene.environment,
-            envMapIntensity: 0.5,
-          });
+
+          if (
+            child.name === 'Object_4' ||
+            child.name === 'Object_5' ||
+            child.name === 'Object_6'
+          ) {
+            child.material = new THREE.MeshPhysicalMaterial({
+              map: this.textureMap,
+              roughnessMap: this.roughnessMap,
+              roughness: 0.3,
+              metalness: 0.8,
+              clearcoat: 0.1,
+              envMap: this.scene.environment,
+              envMapIntensity: 1.0
+            });
+            
+          } else {
+            child.material = this.shader.instance;
+
+          }
         }
       });
 
@@ -74,6 +88,7 @@ export default class GuitarModel1 {
   }
 
   GuitarAnim() {
+    this.shader.update();
     if (window.scrollY < 15 && this.model) {
       this.model.position.y =
         this.model.position.y + Math.sin(this.time.elapsedTime * 0.003) * 0.005;
@@ -96,7 +111,7 @@ export default class GuitarModel1 {
           y: this.model.position.y - 0.1,
           x: this.model.position.x - 1.8,
           z: this.model.position.z + 0.5,
-          duration: 0.6,
+          duration: 1,
         },
         0
       )
@@ -106,7 +121,7 @@ export default class GuitarModel1 {
             y: this.model.rotation.y + 1.1,
             x: this.model.rotation.x - 1.2,
             z: this.model.rotation.z + 0.7,
-            duration: 0.6,
+            duration: 1,
           },
           0
         )
@@ -118,7 +133,7 @@ export default class GuitarModel1 {
             y: this.model.position.y - 0.3,
             duration: 2,
           },
-          1.3
+          1.6
         )
         .to(
           this.model.rotation,
@@ -128,7 +143,7 @@ export default class GuitarModel1 {
             x: this.model.rotation.x + 0.5,
             duration: 2,
           },
-          1.3
+          1.6
         )
         .to(
           this.model.rotation,
@@ -136,9 +151,17 @@ export default class GuitarModel1 {
             y: this.model.rotation.y + 2.2,
             z: this.model.rotation.z + 0.3,
             x: this.model.rotation.x + 0.5,
-            duration: 2,
+            duration: 1,
           },
-          4
+          3.4
+        )
+        .to(
+          this.model.rotation,
+          {
+            y: Math.PI * -1.6,
+            duration: 5,
+          },
+          4.4
         );
     }
   }

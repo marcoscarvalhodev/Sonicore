@@ -32,8 +32,8 @@ export default class Light {
   }
 
   SetInstance() {
-    this.dirLight = new THREE.DirectionalLight('white', 15);
-    this.dirLight.position.set(-5, 2, 10);
+    this.dirLight = new THREE.DirectionalLight('white', 10);
+    this.dirLight.position.set(-5, 5, 10);
 
     this.scene.add(this.dirLight);
   }
