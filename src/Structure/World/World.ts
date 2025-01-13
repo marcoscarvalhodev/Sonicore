@@ -15,7 +15,6 @@ export default class World {
 
     this.loaders.on('ready', () => {
       this.guitar_1 = new GuitarModel1(this.structure);
-      console.log(this.guitar_1);
     });
   }
 

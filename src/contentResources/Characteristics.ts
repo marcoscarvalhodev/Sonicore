@@ -11,12 +11,13 @@ export const Characteristics = () => {
   const characteristicsElText = `
       <div class="flex flex-col">
         <h2 class="showTextLeft text-[72px] font-bold translate-x-[-100%] pt-[72px]">BUILT WITH THE LATEST TECHNOLOGIES</h2>
+     
+        <h2 id="trigger_1" class="showTextRight self-end text-[56px] w-[560px] font-bold translate-x-[calc(100%+90px)] mt-[300px]">CHOOSE FROM A RANGE OF COLORS.</h2>
 
+        <div  class="h-[100vh] mt-[200vh]"> </div>
         
-        <h2 id="trigger_1" class="showTextRight self-end w-[900px] text-[72px] font-bold translate-x-[calc(100%+90px)] mt-[300px]">CHOOSE BETWEEN MANY COLORS AT YOUR OWN CONVENIENCE.</h2>
-
-        <div id="trigger_2" class="h-[100vh] mt-[200vh] merda"></div>
-        <div class="h-[100vh] merda"></div>
+        <h2 class="text-[42px] text-end">THIS IS WHERE INOVATION HAS ITS PLACE</h2>
+        <div id="trigger_2" class="h-[100vh]"></div>
       </div>
   `;
 
@@ -62,7 +63,7 @@ export const Characteristics = () => {
 
   ScrollTrigger.create({
     trigger: showTextRight,
-    start: 'top top',
+    start: 'top top+=50px',
     end: `bottom+=${Math.abs(triggers_diff)}px top`,
     pin: true,
     pinSpacing: false,
