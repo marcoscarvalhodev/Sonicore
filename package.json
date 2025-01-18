@@ -23,6 +23,7 @@
     "postcss": "^8.4.49",
     "postcss-cli": "^11.0.0",
     "postprocessing": "^6.36.6",
+    "screen-space-reflections": "^2.5.0",
     "three": "^0.172.0"
   }
 }

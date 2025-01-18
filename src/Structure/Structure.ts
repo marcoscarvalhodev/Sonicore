@@ -51,8 +51,9 @@ export default class Structure {
   }
 
   update() {
+    this.world.update();
     this.renderer.Render();
     this.postprocessing.PostRender();
-    this.world.update();
+    
   }
 }

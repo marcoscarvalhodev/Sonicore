@@ -1,57 +1,83 @@
-import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
+import {
+  EffectComposer,
+  FXAAEffect,
+  ToneMappingEffect,
+  ToneMappingMode,
+  EffectPass,
+  RenderPass,
+  BrightnessContrastEffect,
+} from 'postprocessing';
 import Structure from './Structure';
 import { WebGLRenderer } from 'three';
-import { FXAAShader } from 'three/examples/jsm/shaders/FXAAShader.js';
 
 export default class Postprocessing {
-  public instance: null | EffectComposer;
   public renderer;
   public scene;
   public camera;
   public pixelRatio;
   public width;
   public height;
-  public fxaaPass: null | ShaderPass;
+  public fxaaEffect: null | FXAAEffect;
+  public toneMappingEffect: null | ToneMappingEffect;
+  public composer: null | EffectComposer;
+  public renderPass: null | RenderPass;
+  public brightness: null | BrightnessContrastEffect;
 
   constructor(structure: Structure) {
     this.renderer = structure.renderer.instance;
-    this.fxaaPass = null;
+    this.fxaaEffect = null;
     this.scene = structure.scene;
+    this.toneMappingEffect = null;
     this.camera = structure.camera.instance;
-    this.instance = null;
     this.pixelRatio = structure.sizes.pixelRatio;
     this.width = structure.sizes.width;
     this.height = structure.sizes.height;
 
-    this.SetInstance();
-  
+    this.brightness = null;
+
+    this.composer = null;
+    this.renderPass = null;
+    this.SetComposer();
+    this.SetToneMapping();
+    this.SetFxaaPass();
+    this.SetBrightness();
   }
 
-  SetInstance() {
-    if (this.renderer) {
-      this.instance = new EffectComposer(this.renderer as WebGLRenderer);
+  SetComposer() {
+    this.composer = new EffectComposer(this.renderer as WebGLRenderer);
+    this.renderPass = new RenderPass(this.scene, this.camera);
+    this.composer.addPass(this.renderPass);
+  }
 
-      this.instance.addPass(new RenderPass(this.scene, this.camera));
+  SetBrightness() {
+    this.brightness = new BrightnessContrastEffect({
+      brightness: 0,
+      contrast: 0.2,
+    });
 
-      this.SetFxaaPass();
-    }
+    const brightnessPass = new EffectPass(this.camera, this.brightness);
+
+    this.composer?.addPass(brightnessPass);
+  }
+
+  SetToneMapping() {
+    this.toneMappingEffect = new ToneMappingEffect({
+      mode: ToneMappingMode.OPTIMIZED_CINEON,
+    });
+
+    const toneMappingPass = new EffectPass(this.camera, this.toneMappingEffect);
+    this.composer?.addPass(toneMappingPass);
   }
 
   SetFxaaPass() {
-    this.fxaaPass = new ShaderPass(FXAAShader);
-    this.fxaaPass.material.uniforms['resolution'].value.x =
-      0.1 / (this.width * this.pixelRatio * 2);
-    this.fxaaPass.material.uniforms['resolution'].value.y =
-      0.1 / (this.height * this.pixelRatio * 2);
-
-    this.instance?.addPass(this.fxaaPass);
-
-    this.fxaaPass.renderToScreen = true;
+    this.fxaaEffect = new FXAAEffect();
+    const fxaaPass = new EffectPass(this.camera, this.fxaaEffect);
+    this.composer?.addPass(fxaaPass);
   }
 
   PostRender() {
-    this.instance?.render();
+    if (this.composer instanceof EffectComposer && this.composer) {
+      this.composer.render();
+    }
   }
 }

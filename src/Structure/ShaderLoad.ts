@@ -33,9 +33,10 @@ export default class ShaderLoad {
     this.instance = new THREE.MeshStandardMaterial({
       roughness: 0.3,
       metalness: 0.6,
+
       roughnessMap: structure.world.guitar_1?.roughnessMap,
       envMap: this.scene.environment,
-      envMapIntensity: 1
+      envMapIntensity: 1,
     });
 
     this.texture_0 = structure.loaders.items.height_map;
