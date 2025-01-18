@@ -5,7 +5,7 @@ import { RGBELoader } from 'three/examples/jsm/Addons.js';
 export default class Light {
   public dirLight: null | THREE.DirectionalLight;
   public ambLight: null | THREE.AmbientLight;
-  public envLight: null ;
+  public envLight: null;
   public scene;
 
   constructor(structure: Structure) {
@@ -20,19 +20,15 @@ export default class Light {
   SetEnvLight() {
     const hdrLoader = new RGBELoader();
 
-    hdrLoader.load("/textures/environment.hdr", (texture) => {
+    hdrLoader.load('/textures/environment.hdr', (texture) => {
       texture.mapping = THREE.EquirectangularReflectionMapping;
       this.scene.environment = texture;
-      this.scene.background = new THREE.Color("#edeef0");
-
-      
-
-
-    })
+      this.scene.background = new THREE.Color('#ffffff');
+    });
   }
 
   SetInstance() {
-    this.dirLight = new THREE.DirectionalLight('white', 10);
+    this.dirLight = new THREE.DirectionalLight('#fcfdff', 1);
     this.dirLight.position.set(-5, 5, 10);
 
     this.scene.add(this.dirLight);

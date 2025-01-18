@@ -3,7 +3,7 @@ export const Hero = () => {
 
   const heroEl = document.createElement('section');
 
-  const heroElTitle = `<div class="flex flex-col w-[50%] gap-[20px]">
+  const heroElTitle = `<div class="heroSection flex flex-col w-[50%] gap-[20px]">
   
   <h1 class='text-[50px]'>Welcome to the future of guitars with <span>Sonicore</span></h1>
   
