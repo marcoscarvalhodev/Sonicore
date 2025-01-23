@@ -22,7 +22,7 @@ export default class Light {
 
     hdrLoader.load('/textures/environment.hdr', (texture) => {
       texture.mapping = THREE.EquirectangularReflectionMapping;
-      this.scene.environment = texture;
+       this.scene.environment = texture; 
       this.scene.background = new THREE.Color('#ffffff');
     });
   }
@@ -30,7 +30,7 @@ export default class Light {
   SetInstance() {
     this.dirLight = new THREE.DirectionalLight('#fcfdff', 1);
     this.dirLight.position.set(-5, 5, 10);
-
-    this.scene.add(this.dirLight);
+    this.ambLight = new THREE.AmbientLight('#ffffff',2);
+    
   }
 }

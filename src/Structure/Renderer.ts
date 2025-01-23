@@ -9,6 +9,7 @@ export default class Renderer {
   public instance: THREE.WebGLRenderer | null;
   public pixelRatio;
 
+
   constructor(structure: Structure) {
     this.canvas = structure.canvas;
     this.scene = structure.scene;
@@ -16,22 +17,21 @@ export default class Renderer {
     this.sizes = structure.sizes;
     this.instance = null;
     this.pixelRatio = structure.sizes.pixelRatio;
-
     this.SetInstance();
   }
+
+  
 
   SetInstance() {
     this.instance = new THREE.WebGLRenderer({
       canvas: this.canvas as HTMLCanvasElement,
-      powerPreference: 'high-performance',
       antialias: false,
-      stencil: false,
-      depth: false,
     });
-
+    
     this.instance.shadowMap.enabled = true;
     this.instance.shadowMap.type = THREE.PCFSoftShadowMap;
     this.instance.setSize(this.sizes.width, this.sizes.height);
+
   }
 
   Render() {

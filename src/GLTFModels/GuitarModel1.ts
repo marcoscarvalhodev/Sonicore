@@ -50,6 +50,7 @@ export default class GuitarModel1 {
     if (this.loader) {
       this.model = this.loader.model_guitar_1.scene;
       this.model.frustumCulled = false;
+
       this.model.traverse((child) => {
         if (child instanceof THREE.Mesh) {
           if (
@@ -57,14 +58,16 @@ export default class GuitarModel1 {
             child.name === 'Object_5' ||
             child.name === 'Object_6'
           ) {
+
             child.material = new THREE.MeshPhysicalMaterial({
               map: this.textureMap,
-              roughnessMap: this.roughnessMap,
+
               roughness: 0.1,
-              metalness: 0.7,
+              metalness: 0.6,
               envMap: this.scene.environment,
-              envMapIntensity: 0.5,
+              envMapIntensity: 0.6
             });
+            
           } else {
             child.material = this.shader.instance;
           }
@@ -74,7 +77,7 @@ export default class GuitarModel1 {
       if (this.model) {
         this.model.scale.set(0.5, 0.5, 0.5);
         this.model.rotation.set(-0.3, -1, 1.3);
-        this.model.position.set(-2, -0.25, 0.5);
+        this.model.position.set(-2, -0.25, -2);
         this.model.position.setLength(-1);
         this.model.castShadow = true;
 
@@ -107,32 +110,32 @@ export default class GuitarModel1 {
       tl.to(
         this.model.position,
         {
-          y: this.model.position.y - 0.1,
-          x: this.model.position.x - 1.8,
-          z: this.model.position.z + 1,
-          duration: 1,
+          y: this.model.position.y - 0.15 ,
+          x: this.model.position.x - 1,
+          z: this.model.position.z + 0.2,
+          duration: 0.6,
         },
         0
       )
         .to(
           this.model.rotation,
           {
-            y: this.model.rotation.y + 1.1,
+            y: this.model.rotation.y + 1.05,
             x: this.model.rotation.x - 1.2,
-            z: this.model.rotation.z + 0.6,
-            duration: 1,
+            z: this.model.rotation.z + 0.4,
+            duration: 0.6,
           },
           0
         )
         .to(
           this.model.position,
           {
-            x: this.model.position.x - 3,
+            x: this.model.position.x - 2,
             z: this.model.position.z,
-            y: this.model.position.y - 0.1 ,
-            duration: 2,
+            y: this.model.position.y - 0.1,
+            duration: 1.4,
           },
-          1.6
+          1.3
         )
         .to(
           this.model.rotation,
@@ -140,9 +143,9 @@ export default class GuitarModel1 {
             y: this.model.rotation.y + 2.2,
             z: this.model.rotation.z + 0.3,
             x: this.model.rotation.x + 0.5,
-            duration: 2,
+            duration: 1.4,
           },
-          1.6
+          1.3
         )
         .to(
           this.model.rotation,
