@@ -48,7 +48,33 @@ export const sources = [
 
   {
     type: sourcesType.GLTFLoader,
-    name: 'scenario_loader',
-    path: '/models/scenario.glb',
+    name: 'scenery_gltf',
+    path: '/models/scenery.glb',
+  },
+
+  {
+    type: sourcesType.TextureLoader,
+    name: 'scenery_texture',
+    path: '/textures/scenery/scenery_bake.jpg',
+  },
+  {
+    type: sourcesType.TextureLoader,
+    name: 'guitar_wall_texture_1',
+    path: '/textures/guitar_wall/guitar_wall_1.png',
+  },
+  {
+    type: sourcesType.GLTFLoader,
+    name: 'guitar_wall_model_1',
+    path: '/models/guitar_wall/guitar_wall_1.glb',
+  },
+  {
+    type: sourcesType.TextureLoader,
+    name: 'guitar_wall_texture_2',
+    path: '/textures/guitar_wall/guitar_wall_2.png',
+  },
+  {
+    type: sourcesType.GLTFLoader,
+    name: 'guitar_wall_model_2',
+    path: '/models/guitar_wall/guitar_wall_2.glb',
   },
 ];

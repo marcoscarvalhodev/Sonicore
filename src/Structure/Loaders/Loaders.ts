@@ -6,11 +6,16 @@ import { TextureLoader } from 'three';
 
 export interface ItemsProps {
   draco_model: DRACOLoader;
-  scenario_loader: GLTF;
+  scenery_gltf: GLTF;
+  guitar_wall_texture_1: THREE.Texture;
+  guitar_wall_texture_2: THREE.Texture;
+  guitar_wall_model_1:  GLTF,
+  guitar_wall_model_2:  GLTF,
   texture_base_1: THREE.Texture;
   texture_base_2: THREE.Texture;
   texture_base_3: THREE.Texture;
   floor_texture: THREE.Texture;
+  scenery_texture: THREE.Texture;
   height_map: THREE.Texture;
   model_guitar_1: GLTF;
   guitar_1_roughnessMap: THREE.Texture;
@@ -35,13 +40,18 @@ export default class Loaders extends EventEmitter {
     this.loaders = null;
     this.items = {
       draco_model: null as unknown as DRACOLoader,
+      guitar_wall_texture_1: null as unknown as THREE.Texture,
+      guitar_wall_texture_2: null as unknown as THREE.Texture,
+      guitar_wall_model_1: null as unknown as GLTF,
+      guitar_wall_model_2: null as unknown as GLTF,
+      scenery_texture: null as unknown as THREE.Texture,
       texture_base_1: null as unknown as THREE.Texture,
       texture_base_2: null as unknown as THREE.Texture,
       texture_base_3: null as unknown as THREE.Texture,
       height_map: null as unknown as THREE.Texture,
       floor_texture: null as unknown as THREE.Texture,
       model_guitar_1: null as unknown as GLTF,
-      scenario_loader: null as unknown as GLTF,
+      scenery_gltf: null as unknown as GLTF,
       guitar_1_roughnessMap: null as unknown as THREE.Texture,
     };
     this.loaded = 0;
