@@ -7,10 +7,14 @@ import { TextureLoader } from 'three';
 export interface ItemsProps {
   draco_model: DRACOLoader;
   scenery_gltf: GLTF;
+  scenery_bake_floor: THREE.Texture;
+  bloom_lights: GLTF;
   guitar_wall_texture_1: THREE.Texture;
   guitar_wall_texture_2: THREE.Texture;
+  guitar_wall_texture_3: THREE.Texture;
   guitar_wall_model_1:  GLTF,
   guitar_wall_model_2:  GLTF,
+  guitar_wall_model_3:  GLTF,
   texture_base_1: THREE.Texture;
   texture_base_2: THREE.Texture;
   texture_base_3: THREE.Texture;
@@ -40,10 +44,14 @@ export default class Loaders extends EventEmitter {
     this.loaders = null;
     this.items = {
       draco_model: null as unknown as DRACOLoader,
+      bloom_lights: null as unknown as GLTF,
+      scenery_bake_floor: null as unknown as THREE.Texture,
       guitar_wall_texture_1: null as unknown as THREE.Texture,
       guitar_wall_texture_2: null as unknown as THREE.Texture,
+      guitar_wall_texture_3: null as unknown as THREE.Texture,
       guitar_wall_model_1: null as unknown as GLTF,
       guitar_wall_model_2: null as unknown as GLTF,
+      guitar_wall_model_3: null as unknown as GLTF,
       scenery_texture: null as unknown as THREE.Texture,
       texture_base_1: null as unknown as THREE.Texture,
       texture_base_2: null as unknown as THREE.Texture,

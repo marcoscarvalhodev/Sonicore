@@ -75,10 +75,10 @@ export default class GuitarModel1 {
       });
 
       if (this.model) {
-        this.model.scale.set(0.5, 0.5, 0.5);
-        this.model.rotation.set(-0.3, -1, 1.3);
-        this.model.position.set(-2, -0.25, -2);
-        this.model.position.setLength(-1);
+        this.model.scale.set(3, 3, 3)
+        this.model.rotation.set(-0.3, -1.3, 1.3);
+        this.model.position.set(0,5, -6);
+        
         this.model.castShadow = true;
 
         this.scene.add(this.model);
@@ -111,8 +111,8 @@ export default class GuitarModel1 {
         this.model.position,
         {
           y: this.model.position.y - 0.15 ,
-          x: this.model.position.x - 1,
-          z: this.model.position.z + 0.2,
+          x: this.model.position.x - 3,
+          z: this.model.position.z + 0.9,
           duration: 0.6,
         },
         0
@@ -120,9 +120,9 @@ export default class GuitarModel1 {
         .to(
           this.model.rotation,
           {
-            y: this.model.rotation.y + 1.05,
-            x: this.model.rotation.x - 1.2,
-            z: this.model.rotation.z + 0.4,
+            y: this.model.rotation.y + 1.3,
+            x: this.model.rotation.x - 1.3,
+            z: this.model.rotation.z + 0.6,
             duration: 0.6,
           },
           0
@@ -130,7 +130,7 @@ export default class GuitarModel1 {
         .to(
           this.model.position,
           {
-            x: this.model.position.x - 2,
+            x: this.model.position.x - 5,
             z: this.model.position.z,
             y: this.model.position.y - 0.1,
             duration: 1.4,
@@ -140,7 +140,7 @@ export default class GuitarModel1 {
         .to(
           this.model.rotation,
           {
-            y: this.model.rotation.y + 2.2,
+            y: this.model.rotation.y + 3,
             z: this.model.rotation.z + 0.3,
             x: this.model.rotation.x + 0.5,
             duration: 1.4,

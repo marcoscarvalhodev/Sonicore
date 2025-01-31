@@ -6,11 +6,13 @@ export default class Camera {
   public canvas;
   public scene;
   public sizes;
+  public time;
 
   constructor(structure: Structure) {
     this.canvas = structure.canvas;
     this.scene = structure.scene;
     this.sizes = structure.sizes;
+    this.time = structure.time;
 
     this.instance = new THREE.PerspectiveCamera();
     this.setInstance();
@@ -23,14 +25,19 @@ export default class Camera {
       0.1,
       1000
     );
-    this.instance.position.set(0, 0, 2);
-    
+    this.instance.position.set(
+      -2,
+      10,
+      -40 /*Math.sin(this.time.elapsedTime * 0.003) * 30*/
+    );
+   
     this.scene.add(this.instance);
-
   }
 
   resize() {
     this.instance.aspect = this.sizes.width / this.sizes.height;
     this.instance.updateProjectionMatrix();
   }
+
+  update() {}
 }

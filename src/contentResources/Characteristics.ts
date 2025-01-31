@@ -138,7 +138,6 @@ export const Characteristics = () => {
 
   const triggers_diff = trigger_1!.bottom - trigger_2!.top;
 
-  console.log(triggers_diff);
 
   ScrollTrigger.create({
     trigger: showTextRight,

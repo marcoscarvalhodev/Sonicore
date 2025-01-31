@@ -77,4 +77,26 @@ export const sources = [
     name: 'guitar_wall_model_2',
     path: '/models/guitar_wall/guitar_wall_2.glb',
   },
+
+  {
+    type: sourcesType.TextureLoader,
+    name: 'guitar_wall_texture_3',
+    path: '/textures/guitar_wall/guitar_wall_3.png',
+  },
+  {
+    type: sourcesType.GLTFLoader,
+    name: 'guitar_wall_model_3',
+    path: '/models/guitar_wall/guitar_wall_3.glb',
+  },
+
+  {
+    type: sourcesType.GLTFLoader,
+    name: 'bloom_lights',
+    path: '/models/bloom_lights.glb',
+  },
+  {
+    type: sourcesType.TextureLoader,
+    name: 'scenery_bake_floor',
+    path: '/textures/scenery/scenery_bake_floor.jpg',
+  },
 ];
