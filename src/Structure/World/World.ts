@@ -2,35 +2,38 @@ import GuitarModel1 from '../../GLTFModels/GuitarModel1';
 import Scenery from '../../GLTFModels/Scenery';
 import GuitarWall from '../../GLTFModels/GuitarWall';
 import Structure from '../Structure';
-import Floor from './Floor';
+
+import BloomLight from '../../GLTFModels/BloomLight';
 
 export default class World {
   public loaderItems;
   public loaders;
   public guitar_1: GuitarModel1 | null;
   public structure;
-  public floor: Floor | null;
   public scenery: Scenery | null;
-  public test: GuitarWall | null;
+  public guitar_wall: GuitarWall | null;
+  public bloom_light: BloomLight | null;
+
   constructor(structure: Structure) {
     this.structure = structure;
     this.loaders = structure.loaders;
     this.loaderItems = structure.loaders.items;
     this.guitar_1 = null;
-    this.floor = null;
     this.scenery = null;
-    this.test = null;
+    this.guitar_wall = null;
+    this.bloom_light = null;
 
     this.loaders.on('ready', () => {
       this.guitar_1 = new GuitarModel1(this.structure);
-      /*this.floor = new Floor(this.structure);*/
+      this.guitar_wall = new GuitarWall(this.structure);
+      this.bloom_light = new BloomLight(this.structure);
       this.scenery = new Scenery(this.structure);
-      this.test = new GuitarWall(this.structure);
     });
   }
 
   update() {
     this.guitar_1?.update();
-    /*this.floor?.update();*/
+    this.scenery?.update();
+    this.guitar_wall?.update();
   }
 }

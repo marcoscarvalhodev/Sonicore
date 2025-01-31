@@ -2,11 +2,12 @@ import * as THREE from 'three';
 import Sizes from './Utils/Sizes';
 import Time from './Utils/Time';
 import Camera from './Camera';
-import Renderer from './Renderer';
+import WGLRenderer from './WGLRenderer';
 import Light from './Light';
 import Postprocessing from './Postprocessing';
 import Loaders from './Loaders/Loaders';
 import World from './World/World';
+
 
 interface StructureProps {
   canvas: HTMLCanvasElement | null;
@@ -18,7 +19,7 @@ export default class Structure {
   public time;
   public scene;
   public camera;
-  public renderer;
+  public WGLRenderer;
   public light;
   public postprocessing;
   public loaders;
@@ -26,15 +27,14 @@ export default class Structure {
 
   constructor({ canvas }: StructureProps) {
     this.canvas = canvas;
-
     this.time = new Time();
     this.sizes = new Sizes();
-    this.loaders = new Loaders();
     this.scene = new THREE.Scene();
-    this.world = new World(this);
     this.camera = new Camera(this);
+    this.WGLRenderer = new WGLRenderer(this);
     this.light = new Light(this);
-    this.renderer = new Renderer(this);
+    this.loaders = new Loaders();
+    this.world = new World(this);
     this.postprocessing = new Postprocessing(this);
 
     this.sizes.on('resize', () => {
@@ -48,12 +48,12 @@ export default class Structure {
 
   resize() {
     this.camera.resize();
-    
   }
 
   update() {
-    
     this.world.update();
+    this.camera.update();
     this.postprocessing.PostRender();
+    
   }
 }

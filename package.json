@@ -14,9 +14,12 @@
     "vite": "^6.0.5"
   },
   "dependencies": {
+    "@tweenjs/tween.js": "^25.0.0",
+    "@types/dat.gui": "^0.7.13",
     "@types/node": "^22.10.2",
     "@types/three": "^0.171.0",
     "autoprefixer": "^10.4.20",
+    "dat.gui": "^0.7.9",
     "express": "^4.21.2",
     "gsap": "^3.12.5",
     "lenis": "^1.1.18",

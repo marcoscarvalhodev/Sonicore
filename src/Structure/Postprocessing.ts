@@ -10,14 +10,9 @@ import {
   SMAAEffect,
   SMAAPreset,
   BlendFunction,
-  EdgeDetectionMode,
-  PredicationMode,
 } from 'postprocessing';
-
-
-
 import Structure from './Structure';
-import { WebGLRenderer } from 'three';
+import { HalfFloatType, WebGLRenderer } from 'three';
 
 export default class Postprocessing {
   public renderer;
@@ -35,7 +30,7 @@ export default class Postprocessing {
   public smaaEffect: null | SMAAEffect;
 
   constructor(structure: Structure) {
-    this.renderer = structure.renderer.instance;
+    this.renderer = structure.WGLRenderer.instance;
     this.fxaaEffect = null;
     this.scene = structure.scene;
     this.toneMappingEffect = null;
@@ -46,51 +41,38 @@ export default class Postprocessing {
     this.smaaEffect = null;
     this.brightness = null;
     this.bloom = null;
-    
 
     this.composer = null;
     this.renderPass = null;
     this.SetComposer();
-    this.SetToneMapping();
-
-    this.SetBrightness();
     this.setBloom();
-   
+    this.SetToneMapping();
   }
 
   SetComposer() {
-    this.composer = new EffectComposer(this.renderer as WebGLRenderer);
-    console.log(this.renderer);
+    this.composer = new EffectComposer(this.renderer as WebGLRenderer, {
+      multisampling: 8,
+      frameBufferType: HalfFloatType,
+    });
     this.renderPass = new RenderPass(this.scene, this.camera);
     this.composer.addPass(this.renderPass);
-    this.composer.multisampling = 8;
   }
 
   setBloom() {
     this.bloom = new BloomEffect({
-      intensity: 2,
-      luminanceThreshold: 0.9,
-      luminanceSmoothing: 0.75,
+      mipmapBlur: true,
+      intensity: 1.5,
+      luminanceThreshold: 1,
     });
+
     const bloomPass = new EffectPass(this.camera, this.bloom);
     this.composer?.addPass(bloomPass);
-  }
-
-  SetBrightness() {
-    this.brightness = new BrightnessContrastEffect({
-      brightness: 0,
-      contrast: 0.1,
-      blendFunction: BlendFunction.DARKEN,
-    });
-
-    const brightnessPass = new EffectPass(this.camera, this.brightness);
-
-    this.composer?.addPass(brightnessPass);
   }
 
   SetToneMapping() {
     this.toneMappingEffect = new ToneMappingEffect({
       mode: ToneMappingMode.ACES_FILMIC,
+      blendFunction: BlendFunction.MULTIPLY,
     });
 
     const toneMappingPass = new EffectPass(this.camera, this.toneMappingEffect);
@@ -106,8 +88,6 @@ export default class Postprocessing {
   setSmaaEffect() {
     this.smaaEffect = new SMAAEffect({
       preset: SMAAPreset.HIGH,
-      edgeDetectionMode: EdgeDetectionMode.DEPTH,
-      predicationMode: PredicationMode.DEPTH,
     });
     const smaaPass = new EffectPass(this.camera, this.smaaEffect);
     this.composer?.addPass(smaaPass);
