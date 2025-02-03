@@ -1,6 +1,6 @@
 import Structure from '../Structure/Structure';
 
-const GuitarContent = [
+/*const GuitarContent = [
   { type: 'guitar_1', name: 'Explorer Guitar', price: '$689.99' },
   { type: 'guitar_2', name: 'Juanes Stratocaster Guitar', price: '$2,129.99' },
   {
@@ -48,7 +48,7 @@ const GuitarContent = [
     name: 'Gibson Les Paul Standard 50s',
     price: '$2589.99',
   },
-];
+];*/
 
 export default class GuitarSpecifications {
   public camera;
