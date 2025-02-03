@@ -28,7 +28,7 @@ export default class Camera {
     this.instance.position.set(
       -2,
       10,
-      -40 /*Math.sin(this.time.elapsedTime * 0.003) * 30*/
+      20
     );
    
     this.scene.add(this.instance);

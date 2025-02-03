@@ -13,7 +13,7 @@ export const sources = [
   {
     type: sourcesType.TextureLoader,
     name: 'texture_base_1',
-    path: '/textures/guitar_base_1.png',
+    path: '/textures/guitar_base_1.webp',
   },
   {
     type: sourcesType.TextureLoader,
@@ -31,19 +31,9 @@ export const sources = [
     path: '/textures/heightMap.png',
   },
   {
-    type: sourcesType.TextureLoader,
-    name: 'guitar_1_roughnessMap',
-    path: '/textures/guitar_roughness.png',
-  },
-  {
     type: sourcesType.DracoLoader,
     name: 'draco_model',
     path: 'https://www.gstatic.com/draco/v1/decoders/',
-  },
-  {
-    type: sourcesType.TextureLoader,
-    name: 'floor_texture',
-    path: '/textures/floor_texture.jfif',
   },
 
   {
@@ -58,9 +48,20 @@ export const sources = [
     path: '/textures/scenery/scenery_bake.jpg',
   },
   {
+    type: sourcesType.GLTFLoader,
+    name: 'bloom_lights',
+    path: '/models/bloom_lights.glb',
+  },
+  {
+    type: sourcesType.TextureLoader,
+    name: 'scenery_bake_floor',
+    path: '/textures/scenery/scenery_bake_floor.jpg',
+  },
+
+  {
     type: sourcesType.TextureLoader,
     name: 'guitar_wall_texture_1',
-    path: '/textures/guitar_wall/guitar_wall_1.png',
+    path: '/textures/guitar_wall/guitar_wall_1.webp',
   },
   {
     type: sourcesType.GLTFLoader,
@@ -70,7 +71,7 @@ export const sources = [
   {
     type: sourcesType.TextureLoader,
     name: 'guitar_wall_texture_2',
-    path: '/textures/guitar_wall/guitar_wall_2.png',
+    path: '/textures/guitar_wall/guitar_wall_2.webp',
   },
   {
     type: sourcesType.GLTFLoader,
@@ -81,7 +82,7 @@ export const sources = [
   {
     type: sourcesType.TextureLoader,
     name: 'guitar_wall_texture_3',
-    path: '/textures/guitar_wall/guitar_wall_3.png',
+    path: '/textures/guitar_wall/guitar_wall_3.webp',
   },
   {
     type: sourcesType.GLTFLoader,
@@ -90,13 +91,159 @@ export const sources = [
   },
 
   {
-    type: sourcesType.GLTFLoader,
-    name: 'bloom_lights',
-    path: '/models/bloom_lights.glb',
+    type: sourcesType.TextureLoader,
+    name: 'guitar_wall_texture_4',
+    path: '/textures/guitar_wall/guitar_wall_4.webp',
   },
   {
     type: sourcesType.TextureLoader,
-    name: 'scenery_bake_floor',
-    path: '/textures/scenery/scenery_bake_floor.jpg',
+    name: 'guitar_wall_texture_metal_4',
+    path: '/textures/guitar_wall_metal/guitar_wall_metal_4.webp',
   },
+
+  {
+    type: sourcesType.GLTFLoader,
+    name: 'guitar_wall_model_4',
+    path: '/models/guitar_wall/guitar_wall_4.glb',
+  },
+
+  {
+    type: sourcesType.TextureLoader,
+    name: 'guitar_wall_texture_5',
+    path: '/textures/guitar_wall/guitar_wall_5.webp',
+  },
+  {
+    type: sourcesType.GLTFLoader,
+    name: 'guitar_wall_model_5',
+    path: '/models/guitar_wall/guitar_wall_5.glb',
+  },
+  {
+    type: sourcesType.TextureLoader,
+    name: 'guitar_wall_texture_6',
+    path: '/textures/guitar_wall/guitar_wall_6.webp',
+  },
+  {
+    type: sourcesType.GLTFLoader,
+    name: 'guitar_wall_model_6',
+    path: '/models/guitar_wall/guitar_wall_6.glb',
+  },
+
+  {
+    type: sourcesType.TextureLoader,
+    name: 'guitar_wall_texture_7',
+    path: '/textures/guitar_wall/guitar_wall_7.webp',
+  },
+  {
+    type: sourcesType.TextureLoader,
+    name: 'guitar_wall_texture_metal_7',
+    path: '/textures/guitar_wall_metal/guitar_wall_metal_7.webp',
+  },
+  {
+    type: sourcesType.TextureLoader,
+    name: 'guitar_wall_texture_rough_7',
+    path: '/textures/guitar_wall_rough/guitar_wall_rough_7.webp',
+  },
+  {
+    type: sourcesType.GLTFLoader,
+    name: 'guitar_wall_model_7',
+    path: '/models/guitar_wall/guitar_wall_7.glb',
+  },
+
+  {
+    type: sourcesType.TextureLoader,
+    name: 'guitar_wall_texture_8',
+    path: '/textures/guitar_wall/guitar_wall_8.webp',
+  },
+  {
+    type: sourcesType.TextureLoader,
+    name: 'guitar_wall_texture_metal_8',
+    path: '/textures/guitar_wall_metal/guitar_wall_metal_8.webp',
+  },
+  {
+    type: sourcesType.GLTFLoader,
+    name: 'guitar_wall_model_8',
+    path: '/models/guitar_wall/guitar_wall_8.glb',
+  },
+
+  {
+    type: sourcesType.TextureLoader,
+    name: 'guitar_wall_texture_9',
+    path: '/textures/guitar_wall/guitar_wall_9.webp',
+  },
+  {
+    type: sourcesType.GLTFLoader,
+    name: 'guitar_wall_model_9',
+    path: '/models/guitar_wall/guitar_wall_9.glb',
+  },
+  {
+    type: sourcesType.TextureLoader,
+    name: 'guitar_wall_texture_10',
+    path: '/textures/guitar_wall/guitar_wall_10.webp',
+  },
+  {
+    type: sourcesType.GLTFLoader,
+    name: 'guitar_wall_model_10',
+    path: '/models/guitar_wall/guitar_wall_10.glb',
+  },
+  {
+    type: sourcesType.TextureLoader,
+    name: 'guitar_wall_texture_11',
+    path: '/textures/guitar_wall/guitar_wall_11.webp',
+  },
+  {
+    type: sourcesType.TextureLoader,
+    name: 'guitar_wall_texture_metal_11',
+    path: '/textures/guitar_wall_metal/guitar_wall_metal_11.webp',
+  },
+  {
+    type: sourcesType.GLTFLoader,
+    name: 'guitar_wall_model_11',
+    path: '/models/guitar_wall/guitar_wall_11.glb',
+  },
+  {
+    type: sourcesType.TextureLoader,
+    name: 'guitar_wall_texture_12',
+    path: '/textures/guitar_wall/guitar_wall_12.webp',
+  },
+  {
+    type: sourcesType.GLTFLoader,
+    name: 'guitar_wall_model_12',
+    path: '/models/guitar_wall/guitar_wall_12.glb',
+  },
+  {
+    type: sourcesType.TextureLoader,
+    name: 'guitar_wall_texture_13',
+    path: '/textures/guitar_wall/guitar_wall_13.webp',
+  },
+  {
+    type: sourcesType.GLTFLoader,
+    name: 'guitar_wall_model_13',
+    path: '/models/guitar_wall/guitar_wall_13.glb',
+  },
+  {
+    type: sourcesType.TextureLoader,
+    name: 'guitar_wall_texture_14',
+    path: '/textures/guitar_wall/guitar_wall_14.webp',
+  },
+  {
+    type: sourcesType.TextureLoader,
+    name: 'guitar_wall_texture_metal_14',
+    path: '/textures/guitar_wall_metal/guitar_wall_metal_14.webp',
+  },
+  {
+    type: sourcesType.TextureLoader,
+    name: 'guitar_wall_texture_rough_14',
+    path: '/textures/guitar_wall_rough/guitar_wall_rough_14.webp',
+  },
+  {
+    type: sourcesType.GLTFLoader,
+    name: 'guitar_wall_model_14',
+    path: '/models/guitar_wall/guitar_wall_14.glb',
+  },
+  {
+    type: sourcesType.GLTFLoader,
+    name: 'sonicore_logo',
+    path: '/models/sonicore_logo.glb',
+  },
+  
 ];

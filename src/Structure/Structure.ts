@@ -7,7 +7,7 @@ import Light from './Light';
 import Postprocessing from './Postprocessing';
 import Loaders from './Loaders/Loaders';
 import World from './World/World';
-
+import CameraAnim from '../SceneryAnimations/CameraAnim';
 
 interface StructureProps {
   canvas: HTMLCanvasElement | null;
@@ -24,6 +24,7 @@ export default class Structure {
   public postprocessing;
   public loaders;
   public world;
+  public cameraAnim;
 
   constructor({ canvas }: StructureProps) {
     this.canvas = canvas;
@@ -36,6 +37,7 @@ export default class Structure {
     this.loaders = new Loaders();
     this.world = new World(this);
     this.postprocessing = new Postprocessing(this);
+    this.cameraAnim = new CameraAnim(this);
 
     this.sizes.on('resize', () => {
       this.resize();
@@ -53,7 +55,7 @@ export default class Structure {
   update() {
     this.world.update();
     this.camera.update();
+    this.cameraAnim.update();
     this.postprocessing.PostRender();
-    
   }
 }

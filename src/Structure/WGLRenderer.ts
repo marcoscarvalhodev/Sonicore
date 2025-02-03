@@ -23,6 +23,7 @@ export default class WGLRenderer {
     this.instance = new THREE.WebGLRenderer({
       canvas: this.canvas as HTMLCanvasElement,
       antialias: false,
+     
     });
 
     this.instance.shadowMap.enabled = true;
