@@ -1,9 +1,9 @@
-import GuitarModel1 from '../../GLTFModels/GuitarModel1';
-import Scenery from '../../GLTFModels/Scenery';
-import GuitarWall from '../../GLTFModels/GuitarWall';
+import GuitarModel1 from '../../SceneryAnimations/GuitarModel1';
+import Scenery from '../../SceneryAnimations/Scenery';
+import GuitarWall from '../../SceneryAnimations/GuitarWall';
 import Structure from '../Structure';
 
-import BloomLight from '../../GLTFModels/BloomLight';
+import BloomLight from '../../SceneryAnimations/BloomLight';
 
 export default class World {
   public loaderItems;

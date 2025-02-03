@@ -29,122 +29,138 @@ const contents = [
 
 gsap.registerPlugin(ScrollTrigger);
 
-export const Characteristics = () => {
-  const mainSection = document.querySelector('.main-section');
+export class Characteristics {
+  public mainSection;
+  public characteristicsWrapper;
+  public showTextLeft;
+  public showTextRight;
+  public timeline;
 
-  const characteristicsEl = document.createElement('section');
+  constructor() {
+    this.mainSection = document.querySelector('.main-section');
+    this.characteristicsWrapper = document.createElement('section');
+    this.setCharacteristics();
 
-  const characteristicsElText = `
-      <div 
+    this.showTextLeft = document.querySelector('.showTextLeft');
+    this.showTextRight = document.querySelector('.showTextRight');
 
-        <div id="mainText" class="flex flex-col">
-        <h2 class="showTextLeft text-[72px] font-bold translate-x-[-100%] pt-[72px]">BUILT WITH THE LATEST TECHNOLOGIES</h2>
-     
-        <h2 id="trigger_1" class="showTextRight self-end text-[42px] w-[480px] font-bold mt-[300px] translate-x-[650px]">CHOOSE FROM A RANGE OF COLORS.</h2>
+    this.timeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: this.showTextRight,
+        scrub: 4,
+        start: 'top center+=100px',
+        end: 'bottom-=30px center+=100px',
+      },
+    });
 
-        <div  class=" mt-[100vh]"> </div>
-        
-        ${contents.map(({ tag }) => {
-          return tag;
-        })}
-        
-        <div id="trigger_2" class="h-[100vh]"></div>
+    this.setMainTextsAnim();
+    this.setAlternateTexts();
+  }
 
-        </div>
-        <div class="h-[1000vh]"></div>
+  setCharacteristics() {
+    const characteristicsElText = `
+    <div 
+
+      <div id="mainText" class="flex flex-col">
+      <h2 class="showTextLeft text-[72px] font-bold translate-x-[-100%] pt-[72px]">BUILT WITH THE LATEST TECHNOLOGIES</h2>
+   
+      <h2 id="trigger_1" class="showTextRight self-end text-[42px] w-[480px] font-bold mt-[300px] translate-x-[650px]">CHOOSE FROM A RANGE OF COLORS.</h2>
+
+      <div  class=" mt-[100vh]"> </div>
+      
+      ${contents.map(({ tag }) => {
+        return tag;
+      })}
+      
+      <div id="trigger_2" class="h-[100vh]"></div>
+
       </div>
-  `;
+      <div id="camera-anim" class="h-[1000vh]"></div>
+    </div>
+`;
 
-  characteristicsEl.innerHTML = characteristicsElText;
+    this.characteristicsWrapper.innerHTML = characteristicsElText;
 
-  mainSection?.appendChild(characteristicsEl);
+    this.mainSection?.appendChild(this.characteristicsWrapper);
+  }
 
-  gsap.to(document.querySelector('.showTextLeft'), {
-    xPercent: 100,
-    scrollTrigger: {
-      trigger: document.querySelector('.showTextLeft'),
-      scrub: 2,
-      start: 'center+=-50px center+=100px',
-      end: 'bottom+=50px center+=100px',
-      toggleActions: 'play none none none',
-    },
-  });
+  setAlternateTexts() {
+    contents.forEach(({ identifier }, index) => {
+      if (index % 2 === 0) {
+        this.timeline.fromTo(
+          this.showTextRight,
+          { x: '80' },
+          {
+            x: '-300',
 
-  const showTextRight = document.querySelector('.showTextRight');
-
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: showTextRight,
-      scrub: 4,
-      start: 'top center+=100px',
-      end: 'bottom-=30px center+=100px',
-    },
-  });
-
-  tl.fromTo(
-    showTextRight,
-    {
-      x: '600',
-    },
-    { x: '80' },
-    0
-  );
-
-  //alternate when text goes left and right
-
-  contents.forEach(({ identifier }, index) => {
-    if (index % 2 === 0) {
-      tl.fromTo(
-        showTextRight,
-        { x: '80' },
-        {
-          x: '-300',
-
-          scrollTrigger: {
-            trigger: document.querySelector(`.${identifier}`),
-            scrub: 2,
-            start: `top-=100px center`,
-            end: 'bottom center',
+            scrollTrigger: {
+              trigger: document.querySelector(`.${identifier}`),
+              scrub: 2,
+              start: `top-=100px center`,
+              end: 'bottom center',
+            },
           },
-        },
-        0
-      );
-    } else {
-      tl.fromTo(
-        showTextRight,
-        { x: '-300' },
-        {
-          x: '80',
-          scrollTrigger: {
-            trigger: document.querySelector(`.${identifier}`),
-            scrub: 2,
-            start: `top-=100px center`,
-            end: 'bottom center',
+          0
+        );
+      } else {
+        this.timeline.fromTo(
+          this.showTextRight,
+          { x: '-300' },
+          {
+            x: '80',
+            scrollTrigger: {
+              trigger: document.querySelector(`.${identifier}`),
+              scrub: 2,
+              start: `top-=100px center`,
+              end: 'bottom center',
+            },
           },
-        },
-        0
-      );
-    }
-  });
+          0
+        );
+      }
+    });
 
-  gsap.set(showTextRight, { x: '650' });
+    gsap.set(this.showTextRight, { x: '650' });
 
-  const trigger_1 = document
-    .getElementById('trigger_1')
-    ?.getBoundingClientRect();
-  const trigger_2 = document
-    .getElementById('trigger_2')
-    ?.getBoundingClientRect();
+    const trigger_1 = document
+      .getElementById('trigger_1')
+      ?.getBoundingClientRect();
+    const trigger_2 = document
+      .getElementById('trigger_2')
+      ?.getBoundingClientRect();
 
-  const triggers_diff = trigger_1!.bottom - trigger_2!.top;
+    const triggers_diff = trigger_1!.bottom - trigger_2!.top;
 
+    ScrollTrigger.create({
+      trigger: this.showTextRight,
+      start: 'top top+=50px',
+      end: `bottom+=${Math.abs(triggers_diff)}px top`,
+      pin: true,
+      pinSpacing: false,
+    });
 
-  ScrollTrigger.create({
-    trigger: showTextRight,
-    start: 'top top+=50px',
-    end: `bottom+=${Math.abs(triggers_diff)}px top`,
-    pin: true,
-    pinSpacing: false,
     
-  });
-};
+  }
+
+  setMainTextsAnim() {
+    gsap.to(this.showTextLeft, {
+      xPercent: 100,
+      scrollTrigger: {
+        trigger: this.showTextLeft,
+        scrub: 2,
+        start: 'center+=-50px center+=100px',
+        end: 'bottom+=50px center+=100px',
+        toggleActions: 'play none none none',
+      },
+    });
+
+    this.timeline.fromTo(
+      this.showTextRight,
+      {
+        x: '600',
+      },
+      { x: '80' },
+      0
+    );
+  }
+}

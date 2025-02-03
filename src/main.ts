@@ -13,7 +13,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 
 Nav();
 Hero();
-Characteristics();
+new Characteristics();
 
 new Structure({
   canvas: document!.querySelector('canvas.webgl'),
