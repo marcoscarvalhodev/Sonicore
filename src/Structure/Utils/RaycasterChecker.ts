@@ -8,10 +8,10 @@ export default class RaycasterClick {
   public mouse;
   public scene;
   public onGuitarClick;
-
+  public guitarOptions;
   constructor(
     structure: Structure,
-    onGuitarClick: (guitarName: string | undefined) => void
+    onGuitarClick: (guitarName: string) => void
   ) {
     this.scene = structure.scene;
     this.renderer = structure.WGLRenderer.instance;
@@ -19,6 +19,20 @@ export default class RaycasterClick {
     this.camera = structure.camera.instance;
     this.raycaster = new THREE.Raycaster();
     this.onGuitarClick = onGuitarClick;
+    this.guitarOptions = [
+      'guitar_1',
+      'guitar_2',
+      'guitar_3',
+      'guitar_4',
+      'guitar_5',
+      'guitar_6',
+      'guitar_7',
+      'guitar_8',
+      'guitar_9',
+      'guitar_10',
+      'guitar_11',
+      'guitar_12',
+    ];
   }
 
   setRaycaster(event: MouseEvent) {
@@ -32,16 +46,12 @@ export default class RaycasterClick {
       true
     );
 
-    if (intersects.length > 0) {
-      const clickedMesh = intersects[0].object;
+    if (intersects.length === 0) return;
 
-      this.onGuitarClick(clickedMesh.parent?.name);
-      document.body.style.cursor = 'pointer';
+    const clickedMesh = intersects[0].object;
 
-    } else {
-      document.body.style.cursor = 'auto'
+    if (clickedMesh.parent && this.guitarOptions.includes(clickedMesh.parent.name)) {
+      this.onGuitarClick(clickedMesh.parent.name);
     }
-
-   
   }
 }

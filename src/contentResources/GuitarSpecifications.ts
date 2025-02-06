@@ -1,6 +1,7 @@
 import Structure from '../Structure/Structure';
+import gsap from 'gsap';
 
-/*const GuitarContent = [
+const GuitarContent = [
   { type: 'guitar_1', name: 'Explorer Guitar', price: '$689.99' },
   { type: 'guitar_2', name: 'Juanes Stratocaster Guitar', price: '$2,129.99' },
   {
@@ -48,13 +49,66 @@ import Structure from '../Structure/Structure';
     name: 'Gibson Les Paul Standard 50s',
     price: '$2589.99',
   },
-];*/
+];
 
 export default class GuitarSpecifications {
   public camera;
   public guitarName;
-  constructor(structure: Structure, guitarName: string) {
+  public specHTML;
+  public idGuitarSpec;
+  public index;
+  public backGuitarSelection;
+  constructor(structure: Structure, guitarName: string, index: number) {
     this.camera = structure.camera.instance;
     this.guitarName = guitarName;
+    this.index = index % 2 === 0 ? true : false;
+    this.specHTML = document.createElement('section');
+
+    this.setGuitarSpec();
+
+    this.idGuitarSpec = document.getElementById('guitar_spec_wrapper');
+    this.guitarSpecIn();
+
+    this.backGuitarSelection = document.getElementById('back_guitar_selection');
   }
+
+  setGuitarSpec() {
+    const spectText = `
+      <div id="guitar_spec_wrapper" class=" fixed w-screen h-screen z-[999]">${GuitarContent.filter(
+        ({ type }) => type === this.guitarName
+      ).map(
+        ({ name, price }) => `<div class="select-none"> 
+              <h1 class="text-[60px]">${name}</h1>
+              <h2 class="text-[40px]">Price: ${price}</h2>
+              <ul class="flex gap-[20px]">
+                <li id="buy_guitar" class="btn_buy">BUY GUITAR</li>
+                <li id="back_guitar_selection" class="btn_back">GO BACK TO SELECTION</li>
+              </ul>
+            </div>`
+      )}</div>
+    `;
+    this.specHTML.innerHTML = spectText;
+    this.specHTML.className = `fixed top-0 left-0 right-0 bottom-0`;
+    document.body.appendChild(this.specHTML);
+  }
+
+  guitarSpecIn() {
+    gsap.fromTo(
+      this.idGuitarSpec,
+      {
+        x: this.index ? '-100%' : '100%',
+      },
+      { x: '0', duration: 2 }
+    );
+  }
+
+  setGuitarOut = () => {
+    gsap.to(this.idGuitarSpec, {
+      x: this.index ? '100%' : '-100%',
+      duration: 2,
+      onComplete: () => {
+        this.idGuitarSpec?.remove();
+      },
+    });
+  };
 }
