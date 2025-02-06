@@ -9,7 +9,7 @@ export const Nav = () => {
 
   <li><a></a></li>
   <li><a></a></li>
-  <li><a class="cursor-pointer transition-all duration-[1s] bg-red-600 px-[20px] py-[10px] rounded-[24px] text-[white] border-red-600 border-solid border-[3px] hover:bg-transparent hover:text-black">BUY A GUITAR</a></li>
+  <li><a class="btn_buy">BUY A GUITAR</a></li>
   
   </ul>
   

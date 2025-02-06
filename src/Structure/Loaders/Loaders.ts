@@ -17,8 +17,6 @@ export interface ItemsProps {
   guitar_wall_texture_5: THREE.Texture;
   guitar_wall_texture_6: THREE.Texture;
   guitar_wall_texture_7: THREE.Texture;
-  guitar_wall_texture_metal_7: THREE.Texture;
-  guitar_wall_texture_rough_7: THREE.Texture;
   guitar_wall_texture_8: THREE.Texture;
   guitar_wall_texture_metal_8: THREE.Texture;
   guitar_wall_texture_9: THREE.Texture;
@@ -82,8 +80,6 @@ export default class Loaders extends EventEmitter {
       guitar_wall_texture_5: null as unknown as THREE.Texture,
       guitar_wall_texture_6: null as unknown as THREE.Texture,
       guitar_wall_texture_7: null as unknown as THREE.Texture,
-      guitar_wall_texture_metal_7: null as unknown as THREE.Texture,
-      guitar_wall_texture_rough_7: null as unknown as THREE.Texture,
       guitar_wall_texture_8: null as unknown as THREE.Texture,
       guitar_wall_texture_metal_8: null as unknown as THREE.Texture,
       guitar_wall_texture_9: null as unknown as THREE.Texture,

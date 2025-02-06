@@ -138,7 +138,7 @@ export default class Scenery {
 
           this.material = child.material;
         } else {
-          child.material = new THREE.MeshStandardMaterial({});
+          child.material = new THREE.MeshStandardMaterial({map: this.texture});
         }
       }
     });

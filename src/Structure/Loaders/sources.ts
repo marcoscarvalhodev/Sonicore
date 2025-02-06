@@ -134,16 +134,6 @@ export const sources = [
     path: '/textures/guitar_wall/guitar_wall_7.webp',
   },
   {
-    type: sourcesType.TextureLoader,
-    name: 'guitar_wall_texture_metal_7',
-    path: '/textures/guitar_wall_metal/guitar_wall_metal_7.webp',
-  },
-  {
-    type: sourcesType.TextureLoader,
-    name: 'guitar_wall_texture_rough_7',
-    path: '/textures/guitar_wall_rough/guitar_wall_rough_7.webp',
-  },
-  {
     type: sourcesType.GLTFLoader,
     name: 'guitar_wall_model_7',
     path: '/models/guitar_wall/guitar_wall_7.glb',

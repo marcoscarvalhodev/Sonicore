@@ -51,7 +51,7 @@ export default class Postprocessing {
 
   SetComposer() {
     this.composer = new EffectComposer(this.renderer as WebGLRenderer, {
-      multisampling: 4,
+      multisampling: 8,
       frameBufferType: HalfFloatType,
     });
     this.renderPass = new RenderPass(this.scene, this.camera);
@@ -60,6 +60,7 @@ export default class Postprocessing {
 
   setBloom() {
     this.bloom = new BloomEffect({
+      mipmapBlur: true,
       intensity: 1.5,
       luminanceThreshold: 1,
     });
