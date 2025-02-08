@@ -38,25 +38,26 @@ export default class RotateGuitar {
     window.addEventListener('mouseup', this.setMouseUp);
 
     this.viewPositioner.on('guitar_out_camera', () => {
-      console.log('out')
       this.setDispose();
-      this.setStopMovement();
+      this.setStopMovement()
     });
   }
 
   setStopMovement() {
+    
     if (this.guitar) {
       this.guitar.rotation.y = THREE.MathUtils.lerp(
+      0,
         0,
-        0,
-        0.5
+        0.075
       );
       this.guitar.rotation.x = THREE.MathUtils.lerp(
         0,
         0,
-        0.5
+        0.075
       );
     }
+
     this.deltaX = 0;
     this.deltaY = 0;
     this.rotationOffset = 0;
@@ -120,7 +121,6 @@ export default class RotateGuitar {
 
   animate = () => {
     if (this.isMouseDown) return;
-    requestAnimationFrame(this.animate);
 
     // Smoothly transition to the target rotation using lerp
     if (this.guitar) {
@@ -141,5 +141,9 @@ export default class RotateGuitar {
     window.removeEventListener('mousedown', this.setMouseDown);
     window.removeEventListener('mousemove', this.setMouseMove);
     window.removeEventListener('mouseup', this.setMouseUp);
+  }
+
+  update() {
+    this.animate();
   }
 }

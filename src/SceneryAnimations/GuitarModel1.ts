@@ -17,6 +17,7 @@ export default class GuitarModel1 {
   public loaders;
   public loader: ItemsProps | null;
   public shader;
+  public lenis: null | Lenis;
 
   constructor(structure: Structure) {
     this.structure = structure;
@@ -26,6 +27,7 @@ export default class GuitarModel1 {
     this.model = null;
     this.time = structure.time;
     this.textureMap = undefined;
+    this.lenis = null;
 
     this.loader = this.loaders.items;
 
@@ -55,16 +57,14 @@ export default class GuitarModel1 {
             child.name === 'Object_5' ||
             child.name === 'Object_6'
           ) {
-
             child.material = new THREE.MeshPhysicalMaterial({
               map: this.textureMap,
 
               roughness: 0.1,
               metalness: 0.6,
               envMap: this.scene.environment,
-              envMapIntensity: 0.6
+              envMapIntensity: 0.6,
             });
-            
           } else {
             child.material = this.shader.instance;
           }
@@ -72,10 +72,10 @@ export default class GuitarModel1 {
       });
 
       if (this.model) {
-        this.model.scale.set(3, 3, 3)
+        this.model.scale.set(3, 3, 3);
         this.model.rotation.set(-0.3, -1.3, 1.3);
-        this.model.position.set(0,5, -6);
-        
+        this.model.position.set(0, 5, -6);
+
         this.model.castShadow = true;
 
         this.scene.add(this.model);
@@ -101,13 +101,12 @@ export default class GuitarModel1 {
           start: `top-=${heroHeight} top`,
           end: 'bottom bottom',
           scrub: 2,
-          
         },
       });
       tl.to(
         this.model.position,
         {
-          y: this.model.position.y - 0.15 ,
+          y: this.model.position.y - 0.15,
           x: this.model.position.x - 3,
           z: this.model.position.z + 0.9,
           duration: 0.6,
@@ -166,12 +165,12 @@ export default class GuitarModel1 {
   }
 
   LenisGuitar() {
-    const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+    this.lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
 
-    lenis.on('scroll', ScrollTrigger.update);
+    this.lenis.on('scroll', ScrollTrigger.update);
 
     gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
+      this.lenis?.raf(time * 1000);
     });
   }
 

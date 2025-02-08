@@ -32,12 +32,13 @@ export default class Structure {
     this.sizes = new Sizes();
     this.scene = new THREE.Scene();
     this.camera = new Camera(this);
+    this.cameraAnim = new CameraAnim(this);
     this.WGLRenderer = new WGLRenderer(this);
     this.light = new Light(this);
     this.loaders = new Loaders();
     this.world = new World(this);
     this.postprocessing = new Postprocessing(this);
-    this.cameraAnim = new CameraAnim(this);
+    
 
     this.sizes.on('resize', () => {
       this.resize();
@@ -55,7 +56,6 @@ export default class Structure {
   update() {
     this.world.update();
     this.camera.update();
-    this.cameraAnim.update();
     this.postprocessing.PostRender();
   }
 }

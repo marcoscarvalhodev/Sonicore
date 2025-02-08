@@ -59,8 +59,7 @@ export class Characteristics {
 
   setCharacteristics() {
     const characteristicsElText = `
-    <div 
-
+    <div>
       <div id="mainText" class="flex flex-col">
       <h2 class="showTextLeft text-[72px] font-bold translate-x-[-100%] pt-[72px]">BUILT WITH THE LATEST TECHNOLOGIES</h2>
    
@@ -138,8 +137,6 @@ export class Characteristics {
       pin: true,
       pinSpacing: false,
     });
-
-    
   }
 
   setMainTextsAnim() {
