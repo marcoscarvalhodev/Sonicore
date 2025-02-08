@@ -12,15 +12,23 @@ export default class ViewPositioner extends EventEmitter {
   public targetPosition;
   public guitarMove;
   public rotateGuitar: null | RotateGuitar;
+  public scrollPosition;
+  public cameraAnim;
+  public structure;
+  public lenis;
 
   constructor(structure: Structure) {
     super();
+    this.structure = structure;
+    this.lenis = this.structure.world.guitar_1?.lenis;
+    this.cameraAnim = structure.cameraAnim;
     this.time = structure.time.current;
     this.camera = structure.camera.instance;
     this.gsap = gsap;
     this.targetPosition = new THREE.Vector3();
     this.guitarMove = true;
     this.rotateGuitar = null;
+    this.scrollPosition = 0;
   }
 
   moveToView(
@@ -37,6 +45,12 @@ export default class ViewPositioner extends EventEmitter {
           onStart: () => {
             this.guitarMove = false;
             this.rotateGuitar = new RotateGuitar(this, object);
+
+            this.gsap.set('body', {
+              overflow: 'hidden',
+            });
+            this.lenis?.stop();
+
             this.trigger('guitar_on_camera');
           },
         })
@@ -64,6 +78,13 @@ export default class ViewPositioner extends EventEmitter {
         duration: 2.5,
         onComplete: () => {
           this.guitarMove = true;
+
+          this.gsap.set('body', {
+            overflowY: 'visible',
+          });
+
+          this.lenis?.start();
+
           this.trigger('guitar_out_camera_complete');
         },
       });
@@ -74,5 +95,6 @@ export default class ViewPositioner extends EventEmitter {
 
   update() {
     this.targetPosition = new THREE.Vector3().copy(this.camera.position);
+    this.rotateGuitar?.update();
   }
 }

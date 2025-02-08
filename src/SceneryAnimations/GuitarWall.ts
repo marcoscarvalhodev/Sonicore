@@ -194,7 +194,8 @@ export default class GuitarWall {
               this.guitarSpecifications = new GuitarSpecifications(
                 this.structure,
                 child.name,
-                index
+                index,
+                this.viewPositioner.targetPosition
               );
 
               this.setAnimEnd(child);

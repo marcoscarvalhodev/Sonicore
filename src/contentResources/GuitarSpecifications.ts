@@ -1,5 +1,6 @@
 import Structure from '../Structure/Structure';
 import gsap from 'gsap';
+import * as THREE from 'three';
 
 const GuitarContent = [
   { type: 'guitar_1', name: 'Explorer Guitar', price: '$689.99' },
@@ -26,8 +27,8 @@ const GuitarContent = [
   },
   {
     type: 'guitar_7',
-    name: 'Gretsch Electromatic Guitar',
-    price: '$699.00',
+    name: 'Fender Player Telecaster Guitar',
+    price: '$1029.00',
   },
   {
     type: 'guitar_8',
@@ -46,8 +47,13 @@ const GuitarContent = [
   },
   {
     type: 'guitar_11',
-    name: 'Gibson Les Paul Standard 50s',
-    price: '$2589.99',
+    name: 'BC Rich Legacy Series Stealth Guitar',
+    price: '$1290.99',
+  },
+  {
+    type: 'guitar_12',
+    name: 'Jackson Pro Series SL2Q Soloist Guitar',
+    price: '$1570.00',
   },
 ];
 
@@ -58,18 +64,31 @@ export default class GuitarSpecifications {
   public idGuitarSpec;
   public index;
   public backGuitarSelection;
-  constructor(structure: Structure, guitarName: string, index: number) {
+  public updatedCamera;
+
+  constructor(
+    structure: Structure,
+    guitarName: string,
+    index: number,
+    updatedCamera: THREE.Vector3
+  ) {
     this.camera = structure.camera.instance;
+    this.updatedCamera = updatedCamera;
     this.guitarName = guitarName;
     this.index = index % 2 === 0 ? true : false;
-    this.specHTML = document.createElement('section');
 
-    this.setGuitarSpec();
+    if (this.updatedCamera.z < -39) {
+      this.specHTML = document.createElement('section');
+      
+      this.setGuitarSpec();
 
-    this.idGuitarSpec = document.getElementById('guitar_spec_wrapper');
-    this.guitarSpecIn();
+      this.idGuitarSpec = document.getElementById('guitar_spec_wrapper');
+      this.backGuitarSelection = document.getElementById(
+        'back_guitar_selection'
+      );
 
-    this.backGuitarSelection = document.getElementById('back_guitar_selection');
+      this.guitarSpecIn();
+    }
   }
 
   setGuitarSpec() {
@@ -87,28 +106,34 @@ export default class GuitarSpecifications {
             </div>`
       )}</div>
     `;
-    this.specHTML.innerHTML = spectText;
-    this.specHTML.className = `fixed top-0 left-0 right-0 bottom-0`;
-    document.body.appendChild(this.specHTML);
+    if (this.specHTML) {
+      this.specHTML.innerHTML = spectText;
+      this.specHTML.className = `fixed top-0 left-0 right-0 bottom-0`;
+      document.body.appendChild(this.specHTML);
+    }
   }
 
   guitarSpecIn() {
-    gsap.fromTo(
-      this.idGuitarSpec,
-      {
-        x: this.index ? '-100%' : '100%',
-      },
-      { x: '0', duration: 2 }
-    );
+    if (this.idGuitarSpec) {
+
+      gsap.fromTo(
+        this.idGuitarSpec,
+        {
+          x: this.index ? '-100%' : '100%',
+        },
+        { x: '0', duration: 2 }
+      );
+    }
   }
 
   setGuitarOut = () => {
-    gsap.to(this.idGuitarSpec, {
-      x: this.index ? '100%' : '-100%',
-      duration: 2,
-      onComplete: () => {
-        this.idGuitarSpec?.remove();
-      },
-    });
+    if (this.idGuitarSpec)
+      gsap.to(this.idGuitarSpec, {
+        x: this.index ? '100%' : '-100%',
+        duration: 2,
+        onComplete: () => {
+          this.idGuitarSpec?.remove();
+        },
+      });
   };
 }
