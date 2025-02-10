@@ -65,6 +65,7 @@ export default class GuitarSpecifications {
   public index;
   public backGuitarSelection;
   public updatedCamera;
+  public buyGuitar;
 
   constructor(
     structure: Structure,
@@ -76,10 +77,10 @@ export default class GuitarSpecifications {
     this.updatedCamera = updatedCamera;
     this.guitarName = guitarName;
     this.index = index % 2 === 0 ? true : false;
-
+    
     if (this.updatedCamera.z < -39) {
       this.specHTML = document.createElement('section');
-      
+
       this.setGuitarSpec();
 
       this.idGuitarSpec = document.getElementById('guitar_spec_wrapper');
@@ -87,8 +88,42 @@ export default class GuitarSpecifications {
         'back_guitar_selection'
       );
 
+      this.buyGuitar = document.getElementById('buy_guitar');
+
       this.guitarSpecIn();
     }
+  }
+
+  setBoughtGuitar() {
+    const boughtGuitarText = `<div id="bought_guitar_text" class="opacity-0 w-full h-full flex justify-center items-center">${GuitarContent.filter(
+      ({ type }) => type === this.guitarName
+    ).map(
+      ({ name }) =>
+        `<div class='bg-white'><h1 class="text-[32px]">This ${name.replace(
+          ' Guitar',
+          ''
+        )} is all yours</h1></div>`
+    )}</div>`;
+
+    if (this.specHTML) {
+      this.specHTML.innerHTML = boughtGuitarText;
+    }
+
+    gsap
+      .timeline()
+      .to('#bought_guitar_text', {
+        opacity: 1,
+        duration: 1,
+        delay: 0.5,
+      })
+      .to('#bought_guitar_text', {
+        opacity: 0,
+        duration: 1,
+        delay: 1,
+        onComplete: () => {
+          document.getElementById('bought_guitar_text')?.remove();
+        },
+      });
   }
 
   setGuitarSpec() {
@@ -115,7 +150,6 @@ export default class GuitarSpecifications {
 
   guitarSpecIn() {
     if (this.idGuitarSpec) {
-
       gsap.fromTo(
         this.idGuitarSpec,
         {

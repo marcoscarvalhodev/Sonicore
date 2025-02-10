@@ -61,7 +61,7 @@ export class Characteristics {
     const characteristicsElText = `
     <div>
       <div id="mainText" class="flex flex-col">
-      <h2 class="showTextLeft text-[72px] font-bold translate-x-[-100%] pt-[72px]">BUILT WITH THE LATEST TECHNOLOGIES</h2>
+      <h2 class="showTextLeft text-[72px] font-bold translate-x-[-100%] pt-[220px]">BUILT WITH THE LATEST TECHNOLOGIES</h2>
    
       <h2 id="trigger_1" class="showTextRight self-end text-[42px] w-[480px] font-bold mt-[300px] translate-x-[650px]">CHOOSE FROM A RANGE OF COLORS.</h2>
 
@@ -74,7 +74,7 @@ export class Characteristics {
       <div id="trigger_2" class="h-[100vh]"></div>
 
       </div>
-      <div id="camera-anim" class="h-[1000vh]"></div>
+      <div id="camera-anim" class="h-[1600vh]"></div>
     </div>
 `;
 

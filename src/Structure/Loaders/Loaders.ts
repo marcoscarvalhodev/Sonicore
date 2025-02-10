@@ -9,6 +9,8 @@ export interface ItemsProps {
   scenery_gltf: GLTF;
   scenery_bake_floor: THREE.Texture;
   bloom_lights: GLTF;
+  rest_scenery: GLTF;
+  rest_scenery_texture: THREE.Texture;
   guitar_wall_texture_1: THREE.Texture;
   guitar_wall_texture_2: THREE.Texture;
   guitar_wall_texture_3: THREE.Texture;
@@ -71,7 +73,9 @@ export default class Loaders extends EventEmitter {
     this.items = {
       draco_model: null as unknown as DRACOLoader,
       bloom_lights: null as unknown as GLTF,
+      rest_scenery: null as unknown as GLTF,
       scenery_bake_floor: null as unknown as THREE.Texture,
+      rest_scenery_texture: null as unknown as THREE.Texture,
       guitar_wall_texture_1: null as unknown as THREE.Texture,
       guitar_wall_texture_2: null as unknown as THREE.Texture,
       guitar_wall_texture_3: null as unknown as THREE.Texture,

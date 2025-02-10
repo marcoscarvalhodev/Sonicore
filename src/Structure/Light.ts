@@ -37,7 +37,7 @@ export default class Light {
   SetInstance() {
     this.dirLight = new THREE.DirectionalLight('#fcfdff', 1);
     this.dirLight.position.set(-5, 5, 10);
-    this.ambLight = new THREE.AmbientLight('#ffffff', 2);
+    this.ambLight = new THREE.AmbientLight('#ffffff', 1.8);
    
   }
 }

@@ -4,6 +4,7 @@ import GuitarWall from '../../SceneryAnimations/GuitarWall';
 import Structure from '../Structure';
 
 import BloomLight from '../../SceneryAnimations/BloomLight';
+import RestScenery from '../../SceneryAnimations/RestScenery';
 
 export default class World {
   public loaderItems;
@@ -13,6 +14,7 @@ export default class World {
   public scenery: Scenery | null;
   public guitar_wall: GuitarWall | null;
   public bloom_light: BloomLight | null;
+  public rest_scenery: RestScenery | null;
 
   constructor(structure: Structure) {
     this.structure = structure;
@@ -22,12 +24,14 @@ export default class World {
     this.scenery = null;
     this.guitar_wall = null;
     this.bloom_light = null;
+    this.rest_scenery = null;
 
     this.loaders.on('ready', () => {
       this.guitar_1 = new GuitarModel1(this.structure);
       this.guitar_wall = new GuitarWall(this.structure);
       this.bloom_light = new BloomLight(this.structure);
       this.scenery = new Scenery(this.structure);
+      this.rest_scenery = new RestScenery(this.structure);
     });
   }
 

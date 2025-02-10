@@ -235,5 +235,14 @@ export const sources = [
     name: 'sonicore_logo',
     path: '/models/sonicore_logo.glb',
   },
-  
+  {
+    type: sourcesType.GLTFLoader,
+    name: 'rest_scenery',
+    path: '/models/rest_scenery.glb',
+  },
+  {
+    type: sourcesType.TextureLoader,
+    name: 'rest_scenery_texture',
+    path: '/textures/scenery/scenery_rest_bake.jpg',
+  },
 ];
