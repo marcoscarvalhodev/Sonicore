@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import Throttle from '../Structure/Utils/Throttle';
 import { Object3DEventMap } from 'three';
 import ViewPositioner from './ViewPositioner';
+import gsap from 'gsap';
 export default class RotateGuitar {
   public viewPositioner;
   public isMouseDown;
@@ -15,11 +16,13 @@ export default class RotateGuitar {
   public targetRotation;
   public dampingFactor;
   public rotationOffset;
+  public gsap;
 
   constructor(
     viewPositioner: ViewPositioner,
     guitar: THREE.Object3D<Object3DEventMap> | null | undefined
   ) {
+    this.gsap = gsap;
     this.viewPositioner = viewPositioner;
     this.isMouseDown = false;
     this.previousMousePosition = new THREE.Vector2(0, 0);
@@ -39,24 +42,18 @@ export default class RotateGuitar {
 
     this.viewPositioner.on('guitar_out_camera', () => {
       this.setDispose();
-      this.setStopMovement()
+      this.setStopMovement();
     });
   }
 
   setStopMovement() {
-    
-    if (this.guitar) {
-      this.guitar.rotation.y = THREE.MathUtils.lerp(
-      0,
-        0,
-        0.075
-      );
-      this.guitar.rotation.x = THREE.MathUtils.lerp(
-        0,
-        0,
-        0.075
-      );
-    }
+    if (this.guitar)
+      this.gsap.to(this.guitar.rotation, {
+        z: 0,
+        y: 0,
+        x: 0,
+        duration: 1.5,
+      });
 
     this.deltaX = 0;
     this.deltaY = 0;

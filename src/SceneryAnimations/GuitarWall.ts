@@ -4,8 +4,11 @@ import * as THREE from 'three';
 import ViewPositioner from './ViewPositioner';
 import RaycasterChecker from '../Structure/Utils/RaycasterChecker';
 import GuitarSpecifications from '../contentResources/GuitarSpecifications';
+import GuitarBuy from './GuitarBuy';
+import gsap from 'gsap';
 
 export default class GuitarWall {
+  public gsap;
   public model;
   public scene;
   public texture: { guitar_texture: Texture }[];
@@ -30,7 +33,7 @@ export default class GuitarWall {
     this.time = structure.time;
     this.loaders = structure.loaders.items;
     this.initialPosition = null;
-
+    this.gsap = gsap;
     this.scene = structure.scene;
 
     this.model = [
@@ -103,6 +106,7 @@ export default class GuitarWall {
     this.guitarSpecifications = null;
     this.guitarMove = true;
     this.viewPositioner = new ViewPositioner(structure);
+
     this.guitarName = 'random';
     this.setTexture();
     this.setModel();
@@ -117,10 +121,6 @@ export default class GuitarWall {
 
   setGuitarOnCamera() {
     this.viewPositioner.on('guitar_on_camera', () => {
-      this.guitarMove = this.viewPositioner.guitarMove;
-    });
-
-    this.viewPositioner.on('guitar_out_camera_complete', () => {
       this.guitarMove = this.viewPositioner.guitarMove;
     });
   }
@@ -199,6 +199,7 @@ export default class GuitarWall {
               );
 
               this.setAnimEnd(child);
+              this.setBuyGuitar(child);
             }
           }
         });
@@ -217,12 +218,27 @@ export default class GuitarWall {
     }
   }
 
+  setBuyGuitar(child: THREE.Object3D) {
+    this.guitarSpecifications?.buyGuitar?.addEventListener('click', () => {
+      new GuitarBuy(
+        this.structure,
+        child,
+        this.viewPositioner.rotateGuitar
+      ).setGuitarRemove();
+      this.guitarSpecifications?.setGuitarOut();
+      this.guitarMove = true;
+      this.guitarSpecifications?.setBoughtGuitar();
+      this.gsap.set('body', { overflowY: 'visible' });
+    });
+  }
+
   setAnimEnd(child: THREE.Object3D) {
     this.guitarSpecifications?.backGuitarSelection?.addEventListener(
       'click',
       () => {
         this.viewPositioner.returnToOriginal(child, this.initialPosition);
         this.guitarSpecifications?.setGuitarOut();
+        this.guitarMove = true;
       }
     );
   }
@@ -237,6 +253,8 @@ export default class GuitarWall {
             if (child.material instanceof MeshStandardMaterial) {
               child.material.roughness = 0.2;
               child.material.metalness = 1;
+              child.material.transparent = true;
+              child.material.opacity = 1;
             }
           } else if (child.name.startsWith('guitar_body')) {
             child.material = child.material.clone();
@@ -244,6 +262,8 @@ export default class GuitarWall {
             if (child.material instanceof MeshStandardMaterial) {
               child.material.roughness = 0.1;
               child.material.metalness = 0;
+              child.material.transparent = true;
+              child.material.opacity = 1;
             }
           } else if (child.name.startsWith('guitar_rough')) {
             child.material = child.material.clone();
@@ -251,6 +271,8 @@ export default class GuitarWall {
             if (child.material instanceof MeshStandardMaterial) {
               child.material.roughness = 1;
               child.material.metalness = 0;
+              child.material.transparent = true;
+              child.material.opacity = 1;
             }
           }
         }
@@ -268,7 +290,9 @@ export default class GuitarWall {
     });
   }
 
+
   update() {
     this.viewPositioner.update();
+    
   }
 }

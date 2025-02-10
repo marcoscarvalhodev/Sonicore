@@ -3,15 +3,15 @@ import { Hero } from './contentResources/Hero.ts';
 import { Nav } from './contentResources/Nav.ts';
 import { Characteristics } from './contentResources/Characteristics.ts';
 import Structure from './Structure/Structure.ts';
+import gsap from 'gsap';
 
-document.body.style.overflowX = 'hidden';
+gsap.set('body', { overflowX: 'hidden' });
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div >
   <canvas class="webgl"></canvas>
     <main class="main-section px-[72px]"></main>
   </div>
 `;
-
 
 Nav();
 Hero();

@@ -2,7 +2,6 @@ import { Mesh } from 'three';
 import Structure from '../Structure/Structure';
 import * as THREE from 'three';
 import { MeshReflectorMaterial } from '../MeshReflectionMaterial';
-import { GUI } from 'dat.gui';
 import SonicoreLogo from './SonicoreLogo';
 
 export default class Scenery {
@@ -14,7 +13,6 @@ export default class Scenery {
   public renderer: null | THREE.WebGLRenderer;
   public material: MeshReflectorMaterial | null;
   public sonicore_logo;
-  public gui;
   
 
   constructor(structure: Structure) {
@@ -28,68 +26,7 @@ export default class Scenery {
     this.material = null;
     this.setMaterial();
     this.sonicore_logo = new SonicoreLogo(structure);
-    this.gui = new GUI();
     
-  }
-
-  setGui() {
-    if (this.material) {
-      this.gui.add(this.material, 'roughness').min(0).max(2).step(0.001);
-      this.gui.add(this.material, 'roughness').min(0).max(2).step(0.001);
-      this.gui.add(this.material, 'envMapIntensity').min(0).max(2).step(0.001);
-      this.gui
-        .add(this.material, 'emissiveIntensity')
-        .min(0)
-        .max(2)
-        .step(0.001);
-      this.gui.add(this.material, 'metalness').min(0).max(2).step(0.001);
-      this.gui
-        .add(this.material.reflectorProps, 'mixBlur')
-        .min(0)
-        .max(7)
-        .step(0.001);
-      this.gui
-        .add(this.material.reflectorProps, 'mixStrength')
-        .min(0)
-        .max(200)
-        .step(0.001);
-      this.gui
-        .add(this.material.reflectorProps, 'depthScale')
-        .min(0)
-        .max(20)
-        .step(0.1);
-      this.gui
-        .add(this.material.reflectorProps, 'mixContrast')
-        .min(0)
-        .max(7)
-        .step(0.001);
-      this.gui
-        .add(this.material.reflectorProps, 'minDepthThreshold')
-        .min(0)
-        .max(7)
-        .step(0.001);
-      this.gui
-        .add(this.material.reflectorProps, 'depthToBlurRatioBias')
-        .min(0)
-        .max(7)
-        .step(0.001);
-      this.gui
-        .add(this.material.reflectorProps, 'maxDepthThreshold')
-        .min(-5)
-        .max(7)
-        .step(0.001);
-
-        this.gui
-        .add(this.material.reflectorProps, 'mirror')
-        .min(-5)
-        .max(5)
-        .step(0.001);
-
-      this.gui.add(this.material.planeNormal, 'x').min(0).max(10).step(0.001);
-      this.gui.add(this.material.planeNormal, 'y').min(0).max(10).step(0.001);
-      this.gui.add(this.material.planeNormal, 'z').min(0).max(10).step(0.001);
-      this.material.needsUpdate = true;
-    }
   }
 
   setMaterial() {
@@ -102,7 +39,7 @@ export default class Scenery {
         child.material instanceof THREE.MeshStandardMaterial
       ) {
         if (child.name === 'floor') {
-          child.material = new MeshReflectorMaterial(
+          /*child.material = new MeshReflectorMaterial(
             this.renderer,
             this.camera,
             this.scene,
@@ -123,9 +60,13 @@ export default class Scenery {
               bufferSamples: 8,
               planeNormal: new THREE.Vector3(0, 1, 1),
             }
-          );
+          );*/
 
-          if (child.material instanceof MeshReflectorMaterial) {
+          child.material = new THREE.MeshStandardMaterial({
+            map: this.texture_2
+          })
+
+         /* if (child.material instanceof MeshReflectorMaterial) {
             child.material.setValues({
               map: this.texture_2,
               emissiveMap: this.texture_2,
@@ -134,7 +75,7 @@ export default class Scenery {
               envMapIntensity: 1.08,
               roughness: 1,
             });
-          }
+          }*/
 
           this.material = child.material;
         } else {
@@ -149,6 +90,6 @@ export default class Scenery {
   }
 
   update() {
-    this.material?.update();
+    /*this.material?.update();*/
   }
 }
