@@ -26,7 +26,7 @@ export default class GuitarWall {
   public guitarMove;
   public guitarSpecifications: null | GuitarSpecifications;
   public currentGuitar: null | THREE.Object3D;
-
+  public guitarBuy: null | GuitarBuy;
   constructor(structure: Structure) {
     this.structure = structure;
     this.camera = structure.camera.instance;
@@ -106,8 +106,8 @@ export default class GuitarWall {
     this.guitarSpecifications = null;
     this.guitarMove = true;
     this.viewPositioner = new ViewPositioner(structure);
-
-    this.guitarName = 'random';
+    this.guitarBuy = null;
+    this.guitarName = 'none';
     this.setTexture();
     this.setModel();
     this.setMaterial();
@@ -123,6 +123,11 @@ export default class GuitarWall {
     this.viewPositioner.on('guitar_on_camera', () => {
       this.guitarMove = this.viewPositioner.guitarMove;
     });
+
+    this.viewPositioner.on('guitar_out_camera_complete', () => {
+      this.guitarMove = this.viewPositioner.guitarMove;
+    });
+    
   }
 
   setTexture() {
@@ -199,7 +204,7 @@ export default class GuitarWall {
               );
 
               this.setAnimEnd(child);
-              this.setBuyGuitar(child);
+              this.setBuyGuitar(child, this.guitarName);
             }
           }
         });
@@ -218,17 +223,19 @@ export default class GuitarWall {
     }
   }
 
-  setBuyGuitar(child: THREE.Object3D) {
+  setBuyGuitar(child: THREE.Object3D, guitarName: string) {
     this.guitarSpecifications?.buyGuitar?.addEventListener('click', () => {
-      new GuitarBuy(
+      this.guitarBuy = new GuitarBuy(
         this.structure,
         child,
-        this.viewPositioner.rotateGuitar
-      ).setGuitarRemove();
-      this.guitarSpecifications?.setGuitarOut();
+        this.viewPositioner
+      );
       this.guitarMove = true;
+      this.guitarBuy.setGuitarRemove();
+      this.guitarSpecifications?.setGuitarOut();
       this.guitarSpecifications?.setBoughtGuitar();
       this.gsap.set('body', { overflowY: 'visible' });
+      this.structure.world.scenery_sign_bought?.SignAppear(guitarName);
     });
   }
 
@@ -238,7 +245,6 @@ export default class GuitarWall {
       () => {
         this.viewPositioner.returnToOriginal(child, this.initialPosition);
         this.guitarSpecifications?.setGuitarOut();
-        this.guitarMove = true;
       }
     );
   }
@@ -290,9 +296,7 @@ export default class GuitarWall {
     });
   }
 
-
   update() {
     this.viewPositioner.update();
-    
   }
 }

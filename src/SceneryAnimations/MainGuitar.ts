@@ -8,7 +8,7 @@ import ShaderLoad from '../Structure/ShaderLoad';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default class GuitarModel1 {
+export default class MainGuitar {
   public scene;
   public model: THREE.Group<THREE.Object3DEventMap> | null;
   public time;
@@ -52,18 +52,23 @@ export default class GuitarModel1 {
 
       this.model.traverse((child) => {
         if (child instanceof THREE.Mesh) {
-          if (
-            child.name === 'Object_4' ||
-            child.name === 'Object_5' ||
-            child.name === 'Object_6'
-          ) {
+          if (child.name === 'guitar_metal') {
             child.material = new THREE.MeshPhysicalMaterial({
               map: this.textureMap,
 
-              roughness: 0.1,
-              metalness: 0.6,
+              roughness: 0.2,
+              metalness: 1,
               envMap: this.scene.environment,
-              envMapIntensity: 0.6,
+              envMapIntensity: 1,
+            });
+          } else if (child.name === 'guitar_rough') {
+            child.material = new THREE.MeshPhysicalMaterial({
+              map: this.textureMap,
+
+              roughness: 1,
+              metalness: 0.1,
+              envMap: this.scene.environment,
+              envMapIntensity: 1,
             });
           } else {
             child.material = this.shader.instance;
@@ -118,7 +123,7 @@ export default class GuitarModel1 {
           {
             y: this.model.rotation.y + 1,
             x: this.model.rotation.x - 1.55,
-            z: this.model.rotation.z ,
+            z: this.model.rotation.z,
             duration: 0.6,
           },
           0
@@ -138,7 +143,7 @@ export default class GuitarModel1 {
           {
             y: this.model.rotation.y + 2.3,
             z: this.model.rotation.z,
-            x: this.model.rotation.x ,
+            x: this.model.rotation.x,
             duration: 1.4,
           },
           1.3
@@ -146,10 +151,9 @@ export default class GuitarModel1 {
         .to(
           this.model.rotation,
           {
-            y:  Math.PI * - 1.7,
-           
+            y: Math.PI * -1.7,
+
             duration: 5,
-            
           },
           4
         );

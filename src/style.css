@@ -5,6 +5,7 @@
 html,
 body {
   position: relative;
+  font-family: 'Libre Franklin', serif;
 }
 
 canvas {
@@ -17,9 +18,9 @@ canvas {
 }
 
 .btn_buy {
-  @apply w-max cursor-pointer transition-all duration-[1s] bg-red-600 px-[20px] py-[10px] rounded-[24px] text-[white] border-red-600 border-solid border-[3px] hover:bg-transparent hover:text-black;
+  @apply w-max cursor-pointer transition-all duration-[1s] bg-red-600 px-[20px] py-[10px] rounded-[24px] text-[white] border-red-600 border-solid border-[3px] hover:bg-transparent hover:text-red-600;
 }
 
 .btn_back {
-  @apply w-max cursor-pointer transition-all duration-[1s] bg-white px-[20px] py-[10px] rounded-[24px] text-[black] border-white border-solid border-[3px] hover:bg-transparent;
+  @apply w-max cursor-pointer transition-all duration-[1s] bg-white px-[20px] py-[10px] rounded-[24px] text-[black] border-white border-solid border-[3px] hover:bg-transparent hover:text-white;
 }

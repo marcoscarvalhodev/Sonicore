@@ -9,6 +9,7 @@ export default class CameraAnim {
   public camera;
   public domEl;
   public timeline: null | gsap.core.Timeline;
+  public timeline_no_scrub: null | gsap.core.Timeline;
   public cameraForward: undefined | gsap.core.Timeline;
   public structure;
   public gsap;
@@ -22,6 +23,7 @@ export default class CameraAnim {
     this.camera = structure.camera.instance;
     this.cameraForward = undefined;
     this.timeline = null;
+    this.timeline_no_scrub = null;
     this.setCameraAnim();
   }
 
@@ -67,9 +69,15 @@ export default class CameraAnim {
       )
       .to(
         ['#legendary-text-1', '#legendary-text-2'],
-        { x: '0', delay: 1, duration: 1 },
+        {
+          x: '0',
+          delay: 1,
+          duration: 1,
+          
+        },
         0
       )
+
       .to(
         this.camera,
         {
@@ -78,8 +86,17 @@ export default class CameraAnim {
         },
         2.6
       )
-      .to('#legendary-text-1', { x: '100%', duration: 1, delay: 0.4 }, 2.6)
+      .to(
+        '#legendary-text-1',
+        {
+          x: '100%',
+          duration: 1,
+          delay: 0.4,
+        },
+        2.6
+      )
       .to('#legendary-text-2', { x: '-100%', duration: 1, delay: 0.4 }, 2.6)
+
       .to(
         this.camera.position,
         {
