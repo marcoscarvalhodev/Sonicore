@@ -8,8 +8,29 @@ export const sources = [
   {
     type: sourcesType.GLTFLoader,
     name: 'model_guitar_1',
-    path: '/models/sonicore.glb',
+    path: '/models/main_guitar.glb',
   },
+  {
+    type: sourcesType.GLTFLoader,
+    name: 'scenery_sign',
+    path: '/models/scenery_sign.glb',
+  },
+  {
+    type: sourcesType.TextureLoader,
+    name: 'texture_scenery_sign',
+    path: '/textures/scenery/scenery_sign.jpg',
+  },
+  {
+    type: sourcesType.GLTFLoader,
+    name: 'scenery_sign_bought',
+    path: '/models/scenery_sign_bought.glb',
+  },
+  {
+    type: sourcesType.TextureLoader,
+    name: 'texture_scenery_sign_bought',
+    path: '/textures/scenery/scenery_sign_bought.jpg',
+  },
+
   {
     type: sourcesType.TextureLoader,
     name: 'texture_base_1',

@@ -72,6 +72,7 @@ export default class Postprocessing {
   SetToneMapping() {
     this.toneMappingEffect = new ToneMappingEffect({
       mode: ToneMappingMode.ACES_FILMIC,
+      blendFunction: BlendFunction.MULTIPLY
     
     });
 

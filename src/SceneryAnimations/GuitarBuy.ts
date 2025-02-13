@@ -1,20 +1,29 @@
 import { Mesh, MeshStandardMaterial, Object3D } from 'three';
 import gsap from 'gsap';
-import RotateGuitar from './RotateGuitar';
 import Structure from '../Structure/Structure';
+import ViewPositioner from './ViewPositioner';
+import * as THREE from 'three';
+import EventEmitter from '../Structure/Utils/EventEmitter';
 
-export default class GuitarBuy {
+export default class GuitarBuy extends EventEmitter {
   public guitar;
   public timeline;
   public rotateGuitar;
   public scene;
+  public normalizedX;
+  public normalizedY;
+  public normalizedZ;
   constructor(
     structure: Structure,
     guitar: Object3D,
-    rotateGuitar: RotateGuitar | null
+    viewPositioner: ViewPositioner
   ) {
+    super();
     this.scene = structure.scene;
-    this.rotateGuitar = rotateGuitar;
+    this.rotateGuitar = viewPositioner.rotateGuitar;
+    this.normalizedX = 0;
+    this.normalizedY = 0;
+    this.normalizedZ = 0;
     this.guitar = guitar;
 
     this.timeline = gsap.timeline({
@@ -33,6 +42,7 @@ export default class GuitarBuy {
                 onComplete: () => {
                   if (this.guitar.parent) {
                     this.scene.remove(this.guitar.parent);
+                    
                   }
                 },
               }
@@ -47,24 +57,34 @@ export default class GuitarBuy {
   }
 
   setGuitarRemove() {
-    [...Array(5)].forEach((_, index) => {
-      if (index % 2 === 0) {
-        this.timeline.to(this.guitar.rotation, {
-          z: 0,
-          y: 1,
-          x: 0,
-          duration: 0.2,
-        });
-      } else {
-        this.timeline.to(this.guitar.rotation, {
-          y: -1,
-          x: 0,
-          z: 0,
-          duration: 0.2,
-        });
-      }
-    });
+    const targetRotation = new THREE.Euler(0, 0, 0);
 
-    this.timeline.to(this.guitar.rotation, { z: 0, y: 0, x: 0, duration: 0.2 });
+    this.normalizedX =
+      THREE.MathUtils.euclideanModulo(
+        targetRotation.x - this.guitar.rotation.x + Math.PI,
+        Math.PI * 2
+      ) - Math.PI;
+
+    this.normalizedY =
+      THREE.MathUtils.euclideanModulo(
+        targetRotation.y - this.guitar.rotation.y + Math.PI,
+        Math.PI * 2
+      ) - Math.PI;
+
+    this.normalizedZ =
+      THREE.MathUtils.euclideanModulo(
+        targetRotation.z - this.guitar.rotation.z + Math.PI,
+        Math.PI * 2
+      ) - Math.PI;
+
+    this.timeline.to(this.guitar.rotation, {
+      z: this.guitar.rotation.z + this.normalizedZ,
+      x: this.guitar.rotation.x + this.normalizedX,
+      y: this.guitar.rotation.y + this.normalizedY,
+      duration: 1.2,
+      onComplete: () => {
+        this.guitar.rotation.set(0, 0, 0);
+      },
+    });
   }
 }

@@ -17,6 +17,9 @@ export default class RotateGuitar {
   public dampingFactor;
   public rotationOffset;
   public gsap;
+  public normalizedZ;
+  public normalizedX;
+  public normalizedY;
 
   constructor(
     viewPositioner: ViewPositioner,
@@ -29,6 +32,9 @@ export default class RotateGuitar {
     this.guitar = guitar;
     this.deltaX = 0;
     this.deltaY = 0;
+    this.normalizedZ = 0;
+    this.normalizedX = 0;
+    this.normalizedY = 0;
     this.rotationSpeed = 0.005;
     this.xRotationLimits = { min: -Math.PI / 4, max: Math.PI / 4 };
     this.targetRotation = new THREE.Euler(); // Initialize target rotation
@@ -47,19 +53,43 @@ export default class RotateGuitar {
   }
 
   setStopMovement() {
-    if (this.guitar)
+    const targetRotation = new THREE.Euler(0, 0, 0);
+
+    if (this.guitar) {
+      this.normalizedX =
+        THREE.MathUtils.euclideanModulo(
+          targetRotation.x - this.guitar.rotation.x + Math.PI,
+          Math.PI * 2
+        ) - Math.PI;
+
+      this.normalizedY =
+        THREE.MathUtils.euclideanModulo(
+          targetRotation.y - this.guitar.rotation.y + Math.PI,
+          Math.PI * 2
+        ) - Math.PI;
+
+      this.normalizedZ =
+        THREE.MathUtils.euclideanModulo(
+          targetRotation.z - this.guitar.rotation.z + Math.PI,
+          Math.PI * 2
+        ) - Math.PI;
+
       this.gsap.to(this.guitar.rotation, {
-        z: 0,
-        y: 0,
-        x: 0,
+        z: this.guitar.rotation.z + this.normalizedZ,
+        y: this.guitar.rotation.y + this.normalizedY,
+        x: this.guitar.rotation.x + this.normalizedX,
         duration: 1.5,
+        onComplete: () => {
+          this.guitar?.rotation.set(0, 0, 0);
+        },
       });
 
-    this.deltaX = 0;
-    this.deltaY = 0;
-    this.rotationOffset = 0;
-    this.rotationSpeed = 0;
-    this.dampingFactor = 0;
+      this.deltaX = 0;
+      this.deltaY = 0;
+      this.rotationOffset = 0;
+      this.rotationSpeed = 0;
+      this.dampingFactor = 0;
+    }
   }
 
   setMouseDown = (event: MouseEvent) => {

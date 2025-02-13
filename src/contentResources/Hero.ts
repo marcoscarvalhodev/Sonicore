@@ -7,7 +7,7 @@ export const Hero = () => {
   
   <h1 class='text-[50px]'>Welcome to the future of guitars with <span>Sonicore</span></h1>
   
-  <p class="text-[30px]">Custom-built, fully interactive, and uniquely yours. Sonicore redefines how you connect with your instrument.</p>
+  <p class="text-[30px]">Ready to find your next dream guitar? Check out and explore our awesome 3D collection.</p>
 
   </div>
   `;

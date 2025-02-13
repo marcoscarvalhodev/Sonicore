@@ -20,7 +20,7 @@ export default class ViewPositioner extends EventEmitter {
   constructor(structure: Structure) {
     super();
     this.structure = structure;
-    this.lenis = this.structure.world.guitar_1?.lenis;
+    this.lenis = this.structure.world.main_guitar?.lenis;
     this.cameraAnim = structure.cameraAnim;
     this.time = structure.time.current;
     this.camera = structure.camera.instance;
@@ -29,8 +29,6 @@ export default class ViewPositioner extends EventEmitter {
     this.guitarMove = true;
     this.rotateGuitar = null;
     this.scrollPosition = 0;
-
-    console.log(this.targetPosition)
   }
 
   moveToView(
@@ -77,13 +75,14 @@ export default class ViewPositioner extends EventEmitter {
         z: initialPosition?.z,
         duration: 2.5,
         onComplete: () => {
-
+          this.guitarMove = true;
           this.gsap.set('body', {
             overflowY: 'visible',
           });
 
           this.lenis?.start();
           
+          this.trigger('guitar_out_camera_complete');
         },
       });
 

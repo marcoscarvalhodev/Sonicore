@@ -10,19 +10,19 @@ enum shortTextEnum {
 
 const contents = [
   {
-    tag: `<h2 class="${shortTextEnum.shorttext_1} text-[32px] self-end w-[300px] mb-[100vh]">THIS IS WHERE INOVATION HAS ITS PLACE</h2>`,
+    tag: `<h2 class="${shortTextEnum.shorttext_1} text-[32px] self-end w-[300px] mb-[100vh]"> ELEVATE YOUR PLAYING EXPERIENCE WITH OUR FINE GUITARS</h2>`,
     identifier: shortTextEnum.shorttext_1,
   },
   {
-    tag: `<h2 class="${shortTextEnum.shorttext_2} text-[32px] self-center w-[300px] mb-[100vh]">TAKE THE NEXT STEP WITH SONICORE</h2>`,
+    tag: `<h2 class="${shortTextEnum.shorttext_2} text-[32px] self-end w-[300px] mb-[100vh]">TAKE THE NEXT STEP WITH SONICORE</h2>`,
     identifier: shortTextEnum.shorttext_2,
   },
   {
-    tag: `<h2 class="${shortTextEnum.shorttext_3} text-[32px] self-end w-[300px] mb-[100vh]">FIND YOUR DREAM GUITAR FULLY CUSTOMIZABLE</h2>`,
+    tag: `<h2 class="${shortTextEnum.shorttext_3} text-[32px] self-end w-[300px] mb-[100vh]">YOUR DREAM GUITAR AWAITS FOR YOU</h2>`,
     identifier: shortTextEnum.shorttext_3,
   },
   {
-    tag: `<h2 class="${shortTextEnum.shorttext_4} text-[32px] self-center w-[300px]">ONCE YOU BUY AT SONICORE, YOU WON'T WANT NO OTHER WAY</h2>`,
+    tag: `<h2 class="${shortTextEnum.shorttext_4} text-[32px] self-end w-[300px]">FULLY CUSTOMIZABLE GUITARS THAT SUITS YOUR PREFERENCE</h2>`,
     identifier: shortTextEnum.shorttext_4,
   },
 ];
@@ -47,7 +47,7 @@ export class Characteristics {
     this.timeline = gsap.timeline({
       scrollTrigger: {
         trigger: this.showTextRight,
-        scrub: 4,
+        scrub: 2,
         start: 'top center+=100px',
         end: 'bottom-=30px center+=100px',
       },
@@ -61,9 +61,9 @@ export class Characteristics {
     const characteristicsElText = `
     <div>
       <div id="mainText" class="flex flex-col">
-      <h2 class="showTextLeft text-[72px] font-bold translate-x-[-100%] pt-[220px]">BUILT WITH THE LATEST TECHNOLOGIES</h2>
+      <h2 class="showTextLeft text-[72px] font-bold translate-x-[-100%] pt-[220px]">DESIGNED WITH TOP-QUALITY COMPONENTS</h2>
    
-      <h2 id="trigger_1" class="showTextRight self-end text-[42px] w-[480px] font-bold mt-[300px] translate-x-[650px]">CHOOSE FROM A RANGE OF COLORS.</h2>
+      <h2 id="trigger_1" class="showTextRight self-end text-[42px] w-[480px] font-bold mt-[300px] translate-x-[650px]">CHOOSE FROM A VARIETY OF MODELS</h2>
 
       <div  class=" mt-[100vh]"> </div>
       
@@ -84,40 +84,21 @@ export class Characteristics {
   }
 
   setAlternateTexts() {
-    contents.forEach(({ identifier }, index) => {
-      if (index % 2 === 0) {
-        this.timeline.fromTo(
-          this.showTextRight,
-          { x: '80' },
-          {
-            x: '-300',
+    this.timeline.fromTo(
+      this.showTextRight,
+      { x: '0' },
+      {
+        x: '-350',
 
-            scrollTrigger: {
-              trigger: document.querySelector(`.${identifier}`),
-              scrub: 2,
-              start: `top-=100px center`,
-              end: 'bottom center',
-            },
-          },
-          0
-        );
-      } else {
-        this.timeline.fromTo(
-          this.showTextRight,
-          { x: '-300' },
-          {
-            x: '80',
-            scrollTrigger: {
-              trigger: document.querySelector(`.${identifier}`),
-              scrub: 2,
-              start: `top-=100px center`,
-              end: 'bottom center',
-            },
-          },
-          0
-        );
-      }
-    });
+        scrollTrigger: {
+          trigger: document.querySelector(`.shorttext_1`),
+          scrub: 2,
+          start: `top-=100px center`,
+          end: 'top+=100vh center',
+        },
+      },
+      0
+    );
 
     gsap.set(this.showTextRight, { x: '650' });
 
@@ -156,7 +137,7 @@ export class Characteristics {
       {
         x: '600',
       },
-      { x: '80' },
+      { x: '0' },
       0
     );
   }
