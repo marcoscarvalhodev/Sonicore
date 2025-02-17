@@ -4,6 +4,14 @@ import gsap from 'gsap';
 import EventEmitter from '../Structure/Utils/EventEmitter';
 import RotateGuitar from './RotateGuitar';
 import { Object3DEventMap } from 'three';
+import ScreenSizes from '../Structure/Utils/ScreenSizes';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
+ScrollTrigger.normalizeScroll(true);
+
+const { sm } = ScreenSizes();
 
 export default class ViewPositioner extends EventEmitter {
   public camera;
@@ -15,12 +23,10 @@ export default class ViewPositioner extends EventEmitter {
   public scrollPosition;
   public cameraAnim;
   public structure;
-  public lenis;
 
   constructor(structure: Structure) {
     super();
     this.structure = structure;
-    this.lenis = this.structure.world.main_guitar?.lenis;
     this.cameraAnim = structure.cameraAnim;
     this.time = structure.time.current;
     this.camera = structure.camera.instance;
@@ -35,7 +41,7 @@ export default class ViewPositioner extends EventEmitter {
     object: THREE.Object3D<Object3DEventMap> | null,
     initialPosition: THREE.Vector3 | null
   ) {
-    if (initialPosition && this.targetPosition.z < -39 && object) {
+    if (initialPosition && this.targetPosition.z < (sm ? -31 : -24) && object) {
       this.gsap
         .timeline()
         .to(object.position, {
@@ -46,8 +52,8 @@ export default class ViewPositioner extends EventEmitter {
             this.guitarMove = false;
             this.rotateGuitar = new RotateGuitar(this, object);
 
-            this.gsap.set('body', {overflow: 'hidden',});
-            this.lenis?.stop();
+            document.body.style.overflow = 'hidden';
+            ScrollTrigger.normalizeScroll(false);
 
             this.trigger('guitar_on_camera');
           },
@@ -55,7 +61,7 @@ export default class ViewPositioner extends EventEmitter {
         .to(object.position, {
           x: this.targetPosition.x,
           y: this.targetPosition.y,
-          z: this.targetPosition.z - 5,
+          z: this.targetPosition.z - (sm ? 5 : 11),
           duration: 1.5,
           ease: 'power4.inOut',
         });
@@ -76,12 +82,9 @@ export default class ViewPositioner extends EventEmitter {
         duration: 2.5,
         onComplete: () => {
           this.guitarMove = true;
-          this.gsap.set('body', {
-            overflowY: 'visible',
-          });
 
-          this.lenis?.start();
-          
+          document.body.style.overflowY = 'visible';
+          ScrollTrigger.normalizeScroll(true);
           this.trigger('guitar_out_camera_complete');
         },
       });

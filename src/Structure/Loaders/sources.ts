@@ -18,7 +18,7 @@ export const sources = [
   {
     type: sourcesType.TextureLoader,
     name: 'texture_scenery_sign',
-    path: '/textures/scenery/scenery_sign.jpg',
+    path: '/textures/scenery/scenery_sign.webp',
   },
   {
     type: sourcesType.GLTFLoader,
@@ -28,7 +28,7 @@ export const sources = [
   {
     type: sourcesType.TextureLoader,
     name: 'texture_scenery_sign_bought',
-    path: '/textures/scenery/scenery_sign_bought.jpg',
+    path: '/textures/scenery/scenery_sign_bought.webp',
   },
 
   {
@@ -66,7 +66,7 @@ export const sources = [
   {
     type: sourcesType.TextureLoader,
     name: 'scenery_texture',
-    path: '/textures/scenery/scenery_bake.jpg',
+    path: '/textures/scenery/scenery_bake.webp',
   },
   {
     type: sourcesType.GLTFLoader,
@@ -76,7 +76,7 @@ export const sources = [
   {
     type: sourcesType.TextureLoader,
     name: 'scenery_bake_floor',
-    path: '/textures/scenery/scenery_bake_floor.jpg',
+    path: '/textures/scenery/scenery_bake_floor.webp',
   },
 
   {
@@ -264,6 +264,6 @@ export const sources = [
   {
     type: sourcesType.TextureLoader,
     name: 'rest_scenery_texture',
-    path: '/textures/scenery/scenery_rest_bake.jpg',
+    path: '/textures/scenery/scenery_rest_bake.webp',
   },
 ];

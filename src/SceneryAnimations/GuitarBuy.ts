@@ -4,6 +4,10 @@ import Structure from '../Structure/Structure';
 import ViewPositioner from './ViewPositioner';
 import * as THREE from 'three';
 import EventEmitter from '../Structure/Utils/EventEmitter';
+import ScrollTrigger from 'gsap/ScrollTrigger';
+gsap.registerPlugin(ScrollTrigger);
+
+
 
 export default class GuitarBuy extends EventEmitter {
   public guitar;
@@ -39,10 +43,11 @@ export default class GuitarBuy extends EventEmitter {
               {
                 opacity: 0,
                 duration: 1.5,
+
                 onComplete: () => {
                   if (this.guitar.parent) {
                     this.scene.remove(this.guitar.parent);
-                    
+                    ScrollTrigger.normalizeScroll(true)
                   }
                 },
               }
@@ -82,6 +87,14 @@ export default class GuitarBuy extends EventEmitter {
       x: this.guitar.rotation.x + this.normalizedX,
       y: this.guitar.rotation.y + this.normalizedY,
       duration: 1.2,
+      onStart: () => {
+        this.guitar.children.forEach((item) => {
+          gsap.to(item, {
+            castShadow: false,
+            duration: 1.7
+          })
+        })  
+      },
       onComplete: () => {
         this.guitar.rotation.set(0, 0, 0);
       },
