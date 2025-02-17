@@ -127,7 +127,6 @@ export default class GuitarWall {
     this.viewPositioner.on('guitar_out_camera_complete', () => {
       this.guitarMove = this.viewPositioner.guitarMove;
     });
-    
   }
 
   setTexture() {
@@ -205,6 +204,7 @@ export default class GuitarWall {
 
               this.setAnimEnd(child);
               this.setBuyGuitar(child, this.guitarName);
+              
             }
           }
         });
@@ -230,11 +230,16 @@ export default class GuitarWall {
         child,
         this.viewPositioner
       );
-      this.guitarMove = true;
+
+      setTimeout(() => {
+        this.guitarMove = true;
+        this.gsap.set('body', { overflowY: 'visible' });
+      }, 3000);
+
       this.guitarBuy.setGuitarRemove();
       this.guitarSpecifications?.setGuitarOut();
       this.guitarSpecifications?.setBoughtGuitar();
-      this.gsap.set('body', { overflowY: 'visible' });
+
       this.structure.world.scenery_sign_bought?.SignAppear(guitarName);
     });
   }
@@ -253,6 +258,15 @@ export default class GuitarWall {
     this.model.forEach((item) => {
       item.guitar_model.traverse((child) => {
         if (child instanceof Mesh) {
+          const excludedGuitars = ['guitar_13', 'guitar_14'];
+
+          if (
+            child.parent?.name &&
+            !excludedGuitars.includes(child.parent.name)
+          ) {
+            child.castShadow = true;
+          }
+          
           if (child.name.startsWith('guitar_metal')) {
             child.material = child.material.clone();
 

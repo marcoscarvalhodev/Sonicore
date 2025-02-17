@@ -1,6 +1,9 @@
 import Structure from '../Structure/Structure';
 import gsap from 'gsap';
 import * as THREE from 'three';
+import ScreenSizes from '../Structure/Utils/ScreenSizes';
+
+const { sm } = ScreenSizes();
 
 const GuitarContent = [
   { type: 'guitar_1', name: 'Explorer Guitar', price: '$689.99' },
@@ -80,7 +83,7 @@ export default class GuitarSpecifications {
     this.index = index % 2 === 0 ? true : false;
     this.gsap = gsap;
 
-    if (this.updatedCamera.z < -39) {
+    if (this.updatedCamera.z < (sm ? -31 : -24)) {
       this.specHTML = document.createElement('section');
       this.gsap.set(this.specHTML, {
         position: 'fixed',
@@ -88,8 +91,8 @@ export default class GuitarSpecifications {
         left: 0,
         right: 0,
         top: 0,
-        z: 9999
-      })
+        z: 9999,
+      });
 
       this.setGuitarSpec();
 
@@ -105,22 +108,22 @@ export default class GuitarSpecifications {
   }
 
   setBoughtGuitar() {
-    console.log('bought')
     const boughtGuitarText = `<div id="bought_guitar_text" class="opacity-0 w-full h-full flex justify-center items-center">${GuitarContent.filter(
       ({ type }) => type === this.guitarName
     ).map(
       ({ name }) =>
-        `<div class='flex gap-[12px] items-center'><h1 class="text-[32px] text-[#11742a]">This ${name.replace(
+        `<div class='px-[2.4rem] flex gap-[1.2rem] items-center'><h1 class="sm:text-[2rem] md:text-[3.2rem] text-[#11742a]">This ${name.replace(
           ' Guitar',
           ''
-        )} is all yours</h1><img src="./svg/icon-check.svg" class="w-[40px] h-[40px]"/></div>`
+        )} is all yours</h1><img src="./svg/icon-check.svg" class="sm:w-[2.8rem] md:w-[4rem] h-[40px]"/></div>`
     )}</div>`;
 
     if (this.specHTML) {
       this.specHTML.innerHTML = boughtGuitarText;
     }
 
-    this.gsap.timeline()
+    this.gsap
+      .timeline()
       .to('#bought_guitar_text', {
         opacity: 1,
         duration: 1,
@@ -142,11 +145,13 @@ export default class GuitarSpecifications {
         ({ type }) => type === this.guitarName
       ).map(
         ({ name, price }) => `<div class="select-none"> 
-              <h1 class="text-[60px] mb-[16px]">${name}</h1>
-              <h2 class="text-[40px] mb-[16px]"">Price: ${price}</h2>
-              <ul class="flex gap-[20px]">
-                <li id="buy_guitar" class="btn_buy mb-[16px]">BUY GUITAR</li>
-                <li id="back_guitar_selection" class="btn_back mb-[16px]"">GO BACK TO SELECTION</li>
+              <h1 class="sm:text-[3.2rem] md:text-[4.8rem] mb-[1.6rem]">${name}</h1>
+              <h2 class="sm:text-[2.4rem] md:text-[3.2rem] mb-[1.6rem]"">Price: ${price}</h2>
+              <ul class="flex gap-[20px] mt-[2rem] sm:flex-col lg:flex-row">
+                <li id="buy_guitar" class="btn_buy">BUY GUITAR</li>
+                <li id="back_guitar_selection" class="btn_back">${
+                  sm ? 'GO BACK' : 'GO BACK TO SELECTION'
+                }</li>
               </ul>
             </div>`
       )}</div>
@@ -183,6 +188,7 @@ export default class GuitarSpecifications {
         duration: 2,
         onComplete: () => {
           this.idGuitarSpec?.remove();
+          this.specHTML?.remove()
         },
       });
   };

@@ -7,12 +7,13 @@ import {
   RenderPass,
   BrightnessContrastEffect,
   BloomEffect,
-  SMAAEffect,
-  SMAAPreset,
   BlendFunction,
 } from 'postprocessing';
 import Structure from './Structure';
 import { HalfFloatType, WebGLRenderer } from 'three';
+import ScreenSizes from './Utils/ScreenSizes';
+
+const { sm } = ScreenSizes();
 
 export default class Postprocessing {
   public renderer;
@@ -27,7 +28,6 @@ export default class Postprocessing {
   public renderPass: null | RenderPass;
   public brightness: null | BrightnessContrastEffect;
   public bloom: null | BloomEffect;
-  public smaaEffect: null | SMAAEffect;
 
   constructor(structure: Structure) {
     this.renderer = structure.WGLRenderer.instance;
@@ -38,10 +38,9 @@ export default class Postprocessing {
     this.pixelRatio = structure.sizes.pixelRatio;
     this.width = structure.sizes.width;
     this.height = structure.sizes.height;
-    this.smaaEffect = null;
     this.brightness = null;
     this.bloom = null;
-
+    
     this.composer = null;
     this.renderPass = null;
     this.SetComposer();
@@ -51,7 +50,7 @@ export default class Postprocessing {
 
   SetComposer() {
     this.composer = new EffectComposer(this.renderer as WebGLRenderer, {
-      multisampling: 8,
+      multisampling: sm ? 4 : 8,
       frameBufferType: HalfFloatType,
     });
     this.renderPass = new RenderPass(this.scene, this.camera);
@@ -72,8 +71,7 @@ export default class Postprocessing {
   SetToneMapping() {
     this.toneMappingEffect = new ToneMappingEffect({
       mode: ToneMappingMode.ACES_FILMIC,
-      blendFunction: BlendFunction.MULTIPLY
-    
+      blendFunction: BlendFunction.MULTIPLY,
     });
 
     const toneMappingPass = new EffectPass(this.camera, this.toneMappingEffect);
@@ -84,14 +82,6 @@ export default class Postprocessing {
     this.fxaaEffect = new FXAAEffect({ blendFunction: BlendFunction.NORMAL });
     const fxaaPass = new EffectPass(this.camera, this.fxaaEffect);
     this.composer?.addPass(fxaaPass);
-  }
-
-  setSmaaEffect() {
-    this.smaaEffect = new SMAAEffect({
-      preset: SMAAPreset.HIGH,
-    });
-    const smaaPass = new EffectPass(this.camera, this.smaaEffect);
-    this.composer?.addPass(smaaPass);
   }
 
   PostRender() {

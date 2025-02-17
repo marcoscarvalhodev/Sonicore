@@ -27,11 +27,18 @@ export default class ScenerySignBought {
         const meshName = child.name.replace('_sold', '');
 
         if (meshName === guitarName) {
-
+          
           gsap.to(child.material, {
             opacity: 1,
             duration: 2,
-
+            
+            delay: 3,
+            onStart: () => {
+              gsap.to(child, {
+                castShadow: true,
+                duration: 1
+              })
+            }
           });
         }
       }

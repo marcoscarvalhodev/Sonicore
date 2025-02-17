@@ -15,6 +15,7 @@ export default class ScenerySign {
   setModel() {
     this.texture.flipY = false;
     this.model.traverse((child) => {
+      child.receiveShadow = true;
       if (
         child instanceof Mesh &&
         child.material instanceof MeshStandardMaterial

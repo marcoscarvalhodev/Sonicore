@@ -23,14 +23,18 @@ export default class WGLRenderer {
     this.instance = new THREE.WebGLRenderer({
       canvas: this.canvas as HTMLCanvasElement,
       antialias: false,
-     
     });
 
     this.instance.shadowMap.enabled = true;
-    this.instance.setClearColor('#ffffff');
     this.instance.outputColorSpace = THREE.SRGBColorSpace;
     this.instance.shadowMap.type = THREE.PCFSoftShadowMap;
     this.instance.setSize(this.sizes.width, this.sizes.height);
+    
+  }
+
+  resize() {
+    this.instance?.setSize(this.sizes.width, this.sizes.height);
+    this.instance?.setPixelRatio(this.pixelRatio);
   }
 
   Render() {

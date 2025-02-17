@@ -1,6 +1,9 @@
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
+import ScreenSizes from '../Structure/Utils/ScreenSizes';
+gsap.registerPlugin(ScrollTrigger);
 
+const { md, sm } = ScreenSizes();
 enum shortTextEnum {
   'shorttext_1' = 'shorttext_1',
   'shorttext_2' = 'shorttext_2',
@@ -10,24 +13,22 @@ enum shortTextEnum {
 
 const contents = [
   {
-    tag: `<h2 class="${shortTextEnum.shorttext_1} text-[32px] self-end w-[300px] mb-[100vh]"> ELEVATE YOUR PLAYING EXPERIENCE WITH OUR FINE GUITARS</h2>`,
+    tag: `<h2 class="${shortTextEnum.shorttext_1} sm:text-[2.4rem] lg:text-[3.2rem] self-end w-[300px] mb-[100vh]"> ELEVATE YOUR PLAYING EXPERIENCE WITH OUR FINE GUITARS</h2>`,
     identifier: shortTextEnum.shorttext_1,
   },
   {
-    tag: `<h2 class="${shortTextEnum.shorttext_2} text-[32px] self-end w-[300px] mb-[100vh]">TAKE THE NEXT STEP WITH SONICORE</h2>`,
+    tag: `<h2 class="${shortTextEnum.shorttext_2} sm:text-[2.4rem] lg:text-[3.2rem] self-end w-[300px] mb-[100vh]">TAKE THE NEXT STEP WITH SONICORE</h2>`,
     identifier: shortTextEnum.shorttext_2,
   },
   {
-    tag: `<h2 class="${shortTextEnum.shorttext_3} text-[32px] self-end w-[300px] mb-[100vh]">YOUR DREAM GUITAR AWAITS FOR YOU</h2>`,
+    tag: `<h2 class="${shortTextEnum.shorttext_3} sm:text-[2.4rem] lg:text-[3.2rem] self-end w-[300px] mb-[100vh]">YOUR DREAM GUITAR AWAITS FOR YOU</h2>`,
     identifier: shortTextEnum.shorttext_3,
   },
   {
-    tag: `<h2 class="${shortTextEnum.shorttext_4} text-[32px] self-end w-[300px]">FULLY CUSTOMIZABLE GUITARS THAT SUITS YOUR PREFERENCE</h2>`,
+    tag: `<h2 class="${shortTextEnum.shorttext_4} sm:text-[2.4rem] lg:text-[3.2rem] self-end w-[300px]">FULLY CUSTOMIZABLE GUITARS THAT SUITS YOUR PREFERENCE</h2>`,
     identifier: shortTextEnum.shorttext_4,
   },
 ];
-
-gsap.registerPlugin(ScrollTrigger);
 
 export class Characteristics {
   public mainSection;
@@ -59,17 +60,20 @@ export class Characteristics {
 
   setCharacteristics() {
     const characteristicsElText = `
-    <div>
+    <div id="scroll-container">
       <div id="mainText" class="flex flex-col">
-      <h2 class="showTextLeft text-[72px] font-bold translate-x-[-100%] pt-[220px]">DESIGNED WITH TOP-QUALITY COMPONENTS</h2>
+      <h2 class="showTextLeft sm:text-[4.8rem] lg:text-[7.2rem] font-bold translate-x-[-100%] pt-[220px]">DESIGNED WITH TOP-QUALITY COMPONENTS</h2>
    
-      <h2 id="trigger_1" class="showTextRight self-end text-[42px] w-[480px] font-bold mt-[300px] translate-x-[650px]">CHOOSE FROM A VARIETY OF MODELS</h2>
+      <h2 id="trigger_1" class="showTextRight self-end text-[42px] md:w-[480px] font-bold mt-[300px] translate-x-[650px]">CHOOSE FROM A VARIETY OF MODELS</h2>
 
-      <div  class=" mt-[100vh]"> </div>
+      <div class="sm:mt-[200px] lg:mt-[100vh]"> </div>
       
-      ${contents.map(({ tag }) => {
-        return tag;
-      })}
+      ${contents
+        .map(({ tag }) => {
+          console.log(tag);
+          return tag;
+        })
+        .join('')}
       
       <div id="trigger_2" class="h-[100vh]"></div>
 
@@ -88,7 +92,7 @@ export class Characteristics {
       this.showTextRight,
       { x: '0' },
       {
-        x: '-350',
+        x: sm || md ? '0' : '-350',
 
         scrollTrigger: {
           trigger: document.querySelector(`.shorttext_1`),
@@ -115,29 +119,36 @@ export class Characteristics {
       trigger: this.showTextRight,
       start: 'top top+=50px',
       end: `bottom+=${Math.abs(triggers_diff)}px top`,
-      pin: true,
+      pin: md || sm ? false : true,
+      scrub: 2,
       pinSpacing: false,
     });
   }
 
   setMainTextsAnim() {
-    gsap.to(this.showTextLeft, {
-      xPercent: 100,
-      scrollTrigger: {
-        trigger: this.showTextLeft,
-        scrub: 2,
-        start: 'center+=-50px center+=100px',
-        end: 'bottom+=50px center+=100px',
-        toggleActions: 'play none none none',
+    gsap.fromTo(
+      this.showTextLeft,
+      {
+        xPercent: -10,
       },
-    });
+      {
+        xPercent: 100,
+        scrollTrigger: {
+          trigger: this.showTextLeft,
+          scrub: 2,
+          start: 'center+=-50px center+=100px',
+          end: 'bottom+=50px center+=100px',
+          toggleActions: 'play none none none',
+        },
+      }
+    );
 
     this.timeline.fromTo(
       this.showTextRight,
       {
         x: '600',
       },
-      { x: '0' },
+      { x: '0', duration: 1 },
       0
     );
   }

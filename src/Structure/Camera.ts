@@ -1,5 +1,8 @@
 import * as THREE from 'three';
 import Structure from './Structure';
+import ScreenSizes from './Utils/ScreenSizes';
+
+const { sm, md } = ScreenSizes();
 
 export default class Camera {
   public instance: THREE.PerspectiveCamera;
@@ -20,18 +23,15 @@ export default class Camera {
 
   setInstance() {
     this.instance = new THREE.PerspectiveCamera(
-      75,
+      sm ? 90 : md ? 60 : 40,
       this.sizes.width / this.sizes.height,
       0.1,
       1000
     );
-    this.instance.position.set(
-      -2,
-      10,
-      20
-    );
+    this.instance.position.set(-2, 10, sm || md ? 20 : 32);
+
     this.instance.updateProjectionMatrix();
-   
+
     this.scene.add(this.instance);
   }
 
@@ -39,6 +39,4 @@ export default class Camera {
     this.instance.aspect = this.sizes.width / this.sizes.height;
     this.instance.updateProjectionMatrix();
   }
-
-  update() {}
 }

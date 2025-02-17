@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { sources } from './sources';
 import { DRACOLoader, GLTF, GLTFLoader } from 'three/examples/jsm/Addons.js';
 import { TextureLoader } from 'three';
+import LoaderInfo from '../../contentResources/LoaderInfo';
 
 export interface ItemsProps {
   draco_model: DRACOLoader;
@@ -68,6 +69,8 @@ export default class Loaders extends EventEmitter {
     textureLoader: TextureLoader;
     dracoLoader: DRACOLoader;
   } | null;
+  public loadingManager;
+  public loaderInfo;
 
   constructor() {
     super();
@@ -128,16 +131,31 @@ export default class Loaders extends EventEmitter {
     };
     this.loaded = 0;
     this.toLoad = this.sources.length;
-
+    this.loadingManager = new THREE.LoadingManager();
+    this.loaderInfo = new LoaderInfo();
     this.setLoaders();
     this.startLoading();
+    this.Loaded();
+  }
+
+  Loaded() {
+    this.loadingManager.onProgress = (_, loaded, total) => {
+      let loadingPercentage = Number(((loaded / total) * 100).toFixed(0));
+      this.loaderInfo.setLoaderPercentage(loadingPercentage);
+      if (loadingPercentage === 100) {
+        setTimeout(() => {
+          this.loaderInfo.setRemoveLoader();
+          
+        }, 2000);
+      }
+    };
   }
 
   setLoaders() {
     this.loaders = {
-      gltfLoader: new GLTFLoader(),
-      textureLoader: new TextureLoader(),
-      dracoLoader: new DRACOLoader(),
+      gltfLoader: new GLTFLoader(this.loadingManager),
+      textureLoader: new TextureLoader(this.loadingManager),
+      dracoLoader: new DRACOLoader(this.loadingManager),
     };
   }
 

@@ -121,9 +121,7 @@ ${shader.fragmentShader}
       },
     };
 
-    window.addEventListener('click', () => {
-      this.toggle = !this.toggle;
-    });
+    
   }
 
   update() {

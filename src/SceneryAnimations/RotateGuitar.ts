@@ -42,9 +42,15 @@ export default class RotateGuitar {
     this.rotationOffset = 0.1;
 
     window.addEventListener('mousedown', this.setMouseDown);
+    window.addEventListener('touchstart', this.setMouseDown);
+
     this.throttle = new Throttle(this.setMouseMove, 50);
+
     window.addEventListener('mousemove', this.throttle.setThrottle);
+    window.addEventListener("touchmove", this.throttle.setThrottle)
+
     window.addEventListener('mouseup', this.setMouseUp);
+    window.addEventListener('touchend', this.setMouseUp);
 
     this.viewPositioner.on('guitar_out_camera', () => {
       this.setDispose();
@@ -92,16 +98,31 @@ export default class RotateGuitar {
     }
   }
 
-  setMouseDown = (event: MouseEvent) => {
+  setMouseDown = (event: MouseEvent | TouchEvent) => {
+    if (event instanceof TouchEvent) {
+      const touch = event.touches[0];
+      this.previousMousePosition.set(touch.clientX, touch.clientY);
+    } else {
+      this.previousMousePosition.set(event.clientX, event.clientY);
+    }
+
     this.isMouseDown = true;
-    this.previousMousePosition.set(event.clientX, event.clientY);
   };
 
-  setMouseMove = (event: MouseEvent) => {
+  setMouseMove = (event: MouseEvent | TouchEvent) => {
     if (!this.isMouseDown) return;
 
-    this.deltaX = event.clientX - this.previousMousePosition.x;
-    this.deltaY = event.clientY - this.previousMousePosition.y;
+    if(event instanceof TouchEvent) {
+      const touch = event.touches[0];
+      this.deltaX = touch.clientX - this.previousMousePosition.x;
+      this.deltaY = touch.clientY - this.previousMousePosition.y;
+
+    } else {
+      this.deltaX = event.clientX - this.previousMousePosition.x;
+      this.deltaY = event.clientY - this.previousMousePosition.y;
+    }
+
+    
 
     if (this.guitar) {
       // Calculate target rotation based on mouse movement
@@ -128,8 +149,14 @@ export default class RotateGuitar {
       );
     }
 
-    // Update previous mouse position
-    this.previousMousePosition.set(event.clientX, event.clientY);
+    
+    if(event instanceof TouchEvent) {
+      const touch = event.touches[0];
+      this.previousMousePosition.set(touch.clientX, touch.clientY);
+    } else {
+      this.previousMousePosition.set(event.clientX, event.clientY);
+    }
+    
   };
 
   setMouseUp = () => {
@@ -168,6 +195,10 @@ export default class RotateGuitar {
     window.removeEventListener('mousedown', this.setMouseDown);
     window.removeEventListener('mousemove', this.setMouseMove);
     window.removeEventListener('mouseup', this.setMouseUp);
+
+    window.removeEventListener('touchstart', this.setMouseDown);
+    window.removeEventListener('touchmove', this.setMouseMove);
+    window.removeEventListener('touchend', this.setMouseUp);
   }
 
   update() {

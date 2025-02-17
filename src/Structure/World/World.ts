@@ -30,23 +30,22 @@ export default class World {
     this.bloom_light = null;
     this.rest_scenery = null;
     this.scenery_sign = null;
-    this.scenery_sign_bought = null
+    this.scenery_sign_bought = null;
 
     this.loaders.on('ready', () => {
-      this.scenery_sign = new ScenerySign(this.structure);
-      this.scenery_sign_bought = new ScenerySignBought(this.structure)
-      this.main_guitar = new MainGuitar(this.structure);
-      this.guitar_wall = new GuitarWall(this.structure);
       this.bloom_light = new BloomLight(this.structure);
       this.scenery = new Scenery(this.structure);
       this.rest_scenery = new RestScenery(this.structure);
+      this.scenery_sign = new ScenerySign(this.structure);
+      this.scenery_sign_bought = new ScenerySignBought(this.structure);
+      this.main_guitar = new MainGuitar(this.structure);
+      this.guitar_wall = new GuitarWall(this.structure);
       
     });
   }
 
   update() {
     this.main_guitar?.update();
-    this.scenery?.update();
     this.guitar_wall?.update();
   }
 }
