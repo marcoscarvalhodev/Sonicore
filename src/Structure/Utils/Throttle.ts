@@ -2,7 +2,7 @@ export default class Throttle {
   public prev;
   public fn;
   public delay;
-  constructor(fn: (event: MouseEvent | TouchEvent) => void, delay: number) {
+  constructor(fn: (event: MouseEvent | TouchEvent ) => void, delay: number) {
     this.prev = 0;
     this.fn = fn;
     this.delay = delay;
@@ -15,4 +15,6 @@ export default class Throttle {
       this.fn(event);
     }
   };
+
+
 }

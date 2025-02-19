@@ -23,8 +23,9 @@ export default class BloomLight {
         child.material instanceof THREE.MeshStandardMaterial
       ) {
         child.material = new THREE.MeshStandardMaterial({
-          emissive: new THREE.Color(1, 1, 1),
-          emissiveIntensity: 6,
+          color: "#ffffff",
+          emissive: "#ffffff",
+          emissiveIntensity:6,
           toneMapped: false,
         });
       }

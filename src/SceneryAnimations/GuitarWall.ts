@@ -107,7 +107,7 @@ export default class GuitarWall {
     this.guitarMove = true;
     this.viewPositioner = new ViewPositioner(structure);
     this.guitarBuy = null;
-    this.guitarName = 'none';
+    this.guitarName = 'default';
     this.setTexture();
     this.setModel();
     this.setMaterial();

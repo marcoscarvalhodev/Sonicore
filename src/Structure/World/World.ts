@@ -2,7 +2,6 @@ import MainGuitar from '../../SceneryAnimations/MainGuitar';
 import Scenery from '../../SceneryAnimations/Scenery';
 import GuitarWall from '../../SceneryAnimations/GuitarWall';
 import Structure from '../Structure';
-
 import BloomLight from '../../SceneryAnimations/BloomLight';
 import RestScenery from '../../SceneryAnimations/RestScenery';
 import ScenerySign from '../../SceneryAnimations/ScenerySign';
@@ -41,11 +40,13 @@ export default class World {
       this.main_guitar = new MainGuitar(this.structure);
       this.guitar_wall = new GuitarWall(this.structure);
       
+      
     });
   }
 
   update() {
     this.main_guitar?.update();
     this.guitar_wall?.update();
+    this.scenery?.update();
   }
 }

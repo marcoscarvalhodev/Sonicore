@@ -15,9 +15,10 @@ export default class SonicoreLogo {
     this.model.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         child.material = new MeshStandardMaterial({
-          color: new THREE.Color(1.0, 0, 0),
+          color: new THREE.Color(0.5, 0, 0),
           emissive: new THREE.Color(0.8,  0.2, 0.1),
-          emissiveIntensity: 5,
+          emissiveIntensity: 6,
+          toneMapped: false,
         });
       }
     });

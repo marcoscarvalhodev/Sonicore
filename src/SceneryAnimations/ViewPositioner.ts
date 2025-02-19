@@ -21,13 +21,11 @@ export default class ViewPositioner extends EventEmitter {
   public guitarMove;
   public rotateGuitar: null | RotateGuitar;
   public scrollPosition;
-  public cameraAnim;
   public structure;
 
   constructor(structure: Structure) {
     super();
     this.structure = structure;
-    this.cameraAnim = structure.cameraAnim;
     this.time = structure.time.current;
     this.camera = structure.camera.instance;
     this.gsap = gsap;
