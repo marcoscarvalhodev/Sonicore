@@ -32,7 +32,7 @@ export default class ShaderLoad {
 
     this.instance = new THREE.MeshStandardMaterial({
       roughness: 0.2,
-      metalness: 0.4
+      metalness: 0.1
     });
 
     this.texture_0 = structure.loaders.items.height_map;

@@ -29,7 +29,7 @@ export default class Camera {
       1000
     );
     this.instance.position.set(-2, 10, sm || md ? 20 : 32);
-
+    
     this.instance.updateProjectionMatrix();
 
     this.scene.add(this.instance);

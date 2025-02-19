@@ -11,14 +11,11 @@ export default class Light {
   public envLight: null;
   public scene;
   public renderer;
-  public pointLightHelper: null | THREE.PointLightHelper;
-  public pointLight: null | THREE.PointLight;
+
   constructor(structure: Structure) {
     this.dirLight = null;
     this.ambLight = null;
     this.envLight = null;
-    this.pointLight = null;
-    this.pointLightHelper = null;
     this.scene = structure.scene;
     this.renderer = structure.WGLRenderer.instance;
     this.SetInstance();
@@ -38,7 +35,6 @@ export default class Light {
       const envTexture = pmremGenerator.fromEquirectangular(texture).texture;
 
       this.scene.environment = envTexture;
-        
     });
   }
 
@@ -48,13 +44,17 @@ export default class Light {
     this.ambLight = new THREE.AmbientLight('#ffffff', 1);
     this.dirLight.castShadow = true;
 
-    this.dirLight.shadow.mapSize.width = sm? 256 : 512;
-    this.dirLight.shadow.mapSize.height = sm? 256 : 512;
+    this.dirLight.shadow.mapSize.width = sm ? 256 : 512;
+    this.dirLight.shadow.mapSize.height = sm ? 256 : 512;
     this.dirLight.shadow.camera.left = -20;
     this.dirLight.shadow.camera.right = 20;
     this.dirLight.shadow.camera.top = 20;
     this.dirLight.shadow.camera.bottom = -20;
 
-    this.scene.add(this.dirLight, this.ambLight);
+    this.scene.add(
+      this.dirLight,
+      this.ambLight,
+    );
   }
+
 }

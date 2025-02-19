@@ -40,7 +40,7 @@ export default class Postprocessing {
     this.height = structure.sizes.height;
     this.brightness = null;
     this.bloom = null;
-    
+
     this.composer = null;
     this.renderPass = null;
     this.SetComposer();
@@ -62,10 +62,13 @@ export default class Postprocessing {
       mipmapBlur: true,
       intensity: 1.5,
       luminanceThreshold: 1,
+      
     });
 
     const bloomPass = new EffectPass(this.camera, this.bloom);
     this.composer?.addPass(bloomPass);
+
+    
   }
 
   SetToneMapping() {

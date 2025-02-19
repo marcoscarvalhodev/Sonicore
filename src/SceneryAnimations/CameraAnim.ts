@@ -35,7 +35,7 @@ export default class CameraAnim {
         trigger: this.domEl,
         start: 'top center',
         end: 'bottom-=150px bottom-=100px',
-        scrub: 2,
+        scrub: 5,
       },
     });
 
@@ -108,5 +108,25 @@ export default class CameraAnim {
         },
         4
       );
+
+    this.timeline.eventCallback(
+      'onUpdate',
+      this.simpleThrottle(() => {
+       
+        this.structure.world.scenery?.material?.update();
+      }, 40)
+    );
+  }
+
+  simpleThrottle(func: () => void, limit: number) {
+    let lastCall = 0;
+
+    return function () {
+      const now = Date.now();
+      if (now - lastCall >= limit) {
+        lastCall = now;
+        func();
+      }
+    };
   }
 }

@@ -9,7 +9,6 @@ import Loaders from './Loaders/Loaders';
 import World from './World/World';
 import CameraAnim from '../SceneryAnimations/CameraAnim';
 
-
 interface StructureProps {
   canvas: HTMLCanvasElement | null;
 }
@@ -35,7 +34,7 @@ export default class Structure {
     this.camera = new Camera(this);
     this.cameraAnim = new CameraAnim(this);
     this.WGLRenderer = new WGLRenderer(this);
-  
+
     this.loaders = new Loaders();
     this.world = new World(this);
     this.postprocessing = new Postprocessing(this);

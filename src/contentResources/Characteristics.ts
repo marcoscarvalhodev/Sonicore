@@ -70,7 +70,7 @@ export class Characteristics {
       
       ${contents
         .map(({ tag }) => {
-          console.log(tag);
+        
           return tag;
         })
         .join('')}
