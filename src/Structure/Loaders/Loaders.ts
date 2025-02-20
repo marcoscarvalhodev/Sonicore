@@ -51,10 +51,7 @@ export interface ItemsProps {
   guitar_wall_model_14: GLTF;
   sonicore_logo: GLTF;
   texture_base_1: THREE.Texture;
-  texture_base_2: THREE.Texture;
-  texture_base_3: THREE.Texture;
   scenery_texture: THREE.Texture;
-  height_map: THREE.Texture;
   model_guitar_1: GLTF;
   [key: string]: DRACOLoader | THREE.Texture | GLTF;
 }
@@ -123,9 +120,6 @@ export default class Loaders extends EventEmitter {
       sonicore_logo: null as unknown as GLTF,
       scenery_texture: null as unknown as THREE.Texture,
       texture_base_1: null as unknown as THREE.Texture,
-      texture_base_2: null as unknown as THREE.Texture,
-      texture_base_3: null as unknown as THREE.Texture,
-      height_map: null as unknown as THREE.Texture,
       model_guitar_1: null as unknown as GLTF,
       scenery_gltf: null as unknown as GLTF,
     };

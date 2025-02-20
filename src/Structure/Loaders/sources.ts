@@ -37,21 +37,6 @@ export const sources = [
     path: '/textures/guitar_base_1.webp',
   },
   {
-    type: sourcesType.TextureLoader,
-    name: 'texture_base_2',
-    path: '/textures/guitar_base_2.jpg',
-  },
-  {
-    type: sourcesType.TextureLoader,
-    name: 'texture_base_3',
-    path: '/textures/guitar_base_3.jpg',
-  },
-  {
-    type: sourcesType.TextureLoader,
-    name: 'height_map',
-    path: '/textures/heightMap.png',
-  },
-  {
     type: sourcesType.DracoLoader,
     name: 'draco_model',
     path: 'https://www.gstatic.com/draco/v1/decoders/',

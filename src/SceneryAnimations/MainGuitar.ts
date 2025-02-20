@@ -3,10 +3,9 @@ import Structure from '../Structure/Structure';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { ItemsProps } from '../Structure/Loaders/Loaders';
-import ShaderLoad from '../Structure/ShaderLoad';
 import ScreenSizes from '../Structure/Utils/ScreenSizes';
 
-const { sm, md } = ScreenSizes();
+const { sm, md, lg } = ScreenSizes();
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -18,8 +17,7 @@ export default class MainGuitar {
   public structure;
   public loaders;
   public loader: ItemsProps | null;
-  public shader;
-
+  public heroHeight;
   constructor(structure: Structure) {
     this.structure = structure;
     this.loaders = this.structure.loaders;
@@ -28,11 +26,11 @@ export default class MainGuitar {
     this.model = null;
     this.time = structure.time;
     this.textureMap = undefined;
-
+    this.heroHeight = document.querySelector('.heroSection')?.clientHeight;
     this.loader = this.loaders.items;
 
     this.setTextures();
-    this.shader = new ShaderLoad(this.model, structure);
+    
     this.setModel();
     this.GsapGuitar();
   }
@@ -70,7 +68,11 @@ export default class MainGuitar {
               envMapIntensity: 1,
             });
           } else {
-            child.material = this.shader.instance;
+            child.material = new THREE.MeshPhysicalMaterial({
+              roughness: 0.2,
+              metalness: 0.1,
+              map: this.textureMap,
+            });
           }
         }
       });
@@ -78,7 +80,11 @@ export default class MainGuitar {
       if (this.model) {
         this.model.scale.set(3, 3, 3);
         this.model.rotation.set(0, -1, 1.6);
-        this.model.position.set(sm || md ? 1 : 4, 10, sm ? 12 : md ? 9 : 16);
+        this.model.position.set(
+          sm || md ? 1 : 4,
+          10,
+          sm ? 12 : md ? 9 : lg ? 16 : 8
+        );
 
         this.model.castShadow = true;
 
@@ -88,21 +94,26 @@ export default class MainGuitar {
   }
 
   GuitarAnim() {
-    this.shader.update();
-    if (window.scrollY < 15 && this.model) {
+    const guitar_trigger = document.getElementById(
+      'main-guitar-trigger'
+    )?.clientHeight;
+    if (
+      guitar_trigger &&
+      this.heroHeight &&
+      window.scrollY < guitar_trigger - this.heroHeight &&
+      this.model
+    ) {
       this.model.position.y =
         this.model.position.y + Math.sin(this.time.elapsedTime * 0.003) * 0.005;
     }
   }
 
   GsapGuitar() {
-    const heroHeight = document.querySelector('.heroSection')?.clientHeight;
-
     if (this.model) {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: document.getElementById('mainText'),
-          start: `top-=${heroHeight} top`,
+          start: `top-=${this.heroHeight} top`,
           end: 'bottom bottom',
           scrub: 2,
         },

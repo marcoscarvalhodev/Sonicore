@@ -20,17 +20,10 @@ canvas {
   
 }
 
-/*.main-section {
-  max-width: 1440px;
-  left: 50%;
-  transform: translate(-50%, 0);
-  overflow: hidden;
-}*/
-
 .btn_buy {
-  @apply sm:text-[1.4rem] lg:text-[1.8rem] w-max cursor-pointer transition-all duration-[1s] bg-red-600 px-[20px] py-[10px] rounded-[24px] text-[white] border-red-600 border-solid border-[3px] hover:bg-transparent hover:text-red-600;
+  @apply sm:text-[1.2rem] lg:text-[1.8rem] w-max cursor-pointer transition-all duration-[1s] bg-red-600 px-[20px] py-[10px] rounded-[24px] text-[white] border-red-600 border-solid border-[3px] hover:bg-transparent hover:text-red-600;
 }
 
 .btn_back {
-  @apply sm:text-[1.4rem] lg:text-[1.8rem] w-max cursor-pointer transition-all duration-[1s] bg-white px-[20px] py-[10px] rounded-[24px] text-[black] border-white border-solid border-[3px] hover:bg-transparent hover:text-white;
+  @apply sm:text-[1.2rem] lg:text-[1.8rem] w-max cursor-pointer transition-all duration-[1s] bg-white px-[20px] py-[10px] rounded-[24px] text-[#1f1b1b] border-white border-solid border-[3px] hover:bg-transparent hover:text-white;
 }

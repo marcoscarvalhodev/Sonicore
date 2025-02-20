@@ -4,9 +4,9 @@ const ScreenSizes = () => {
   const sm = new ScreenSizeHandler('(max-width:768px)');
   const md = new ScreenSizeHandler('(min-width:768px) and (max-width: 1024px)');
   const lg = new ScreenSizeHandler(
-    '(min-width: 1024px) and (max-width: 1280px)'
+    '(min-width: 1024px) and (max-width: 1920px)'
   );
-  const xlg = new ScreenSizeHandler('(min-width: 1280px)');
+  const xlg = new ScreenSizeHandler('(min-width: 1920px)');
 
   return {
     sm: sm.match,

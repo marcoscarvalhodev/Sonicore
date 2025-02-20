@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import Structure from './Structure';
 import ScreenSizes from './Utils/ScreenSizes';
 
-const { sm, md } = ScreenSizes();
+const { sm, md, lg } = ScreenSizes();
 
 export default class Camera {
   public instance: THREE.PerspectiveCamera;
@@ -28,8 +28,8 @@ export default class Camera {
       0.1,
       1000
     );
-    this.instance.position.set(-2, 10, sm || md ? 20 : 32);
-    
+    this.instance.position.set(-2, 10, sm || md ? 20 : lg ? 32 : 24);
+
     this.instance.updateProjectionMatrix();
 
     this.scene.add(this.instance);

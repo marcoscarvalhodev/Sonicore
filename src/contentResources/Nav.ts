@@ -18,9 +18,9 @@ export default class Nav {
   ScrollBottom() {
     this.guitarButton?.addEventListener('click', () => {
       gsap.to(window, {
-        scrollTo: { y: document.body.scrollHeight, autoKill: false }, // Scroll to the bottom of the page
-        duration: 1, // Duration of the scroll animation
-        ease: 'power2.inOut', // Easing function
+        scrollTo: { y: document.body.scrollHeight, autoKill: false },
+        duration: 1,
+        ease: 'power2.inOut',
       });
     });
   }
@@ -28,10 +28,17 @@ export default class Nav {
   setNav() {
     const navEl = `<nav class=" w-full py-[2rem] flex items-center justify-between">
     
-    <h1 class="text-[3.2rem]">Sonicore</h1> 
+    <h1 class="sm:text-[2.4rem] md:text-[3.2rem] text-[#1f1b1b]">Sonicore</h1> 
     
-    <ul>
-    <li><a id="main-btn-buy" class="btn_buy">BUY A GUITAR</a></li>
+    <ul class="flex gap-[1.6rem]">
+
+    <li >
+    <div >
+    <img id="toggleButton" class="sm:max-w-[3rem] md:max-w-[4rem] cursor-pointer hover:opacity-[0.7] transition-all duration-[0.3s]" src="/svg/sound-mute.svg"/></div>
+    <audio class="h-0 w-0 opacity-0 pointer-events-none" id="audioPlayer" controls></audio>
+    </li>
+
+    <li class="mt-[0.7rem]"><a id="main-btn-buy" class="btn_buy ">BUY A GUITAR</a></li>
     
     </ul>
     
