@@ -145,8 +145,8 @@ export default class GuitarSpecifications {
         ({ type }) => type === this.guitarName
       ).map(
         ({ name, price }) => `<div class="select-none"> 
-              <h1 class="sm:text-[3.2rem] md:text-[4.8rem] mb-[1.6rem]">${name}</h1>
-              <h2 class="sm:text-[2.4rem] md:text-[3.2rem] mb-[1.6rem]"">Price: ${price}</h2>
+              <h1 class="sm:text-[3.2rem] md:text-[4.8rem] mb-[1.6rem] text-[#1f1b1b]">${name}</h1>
+              <h2 class="sm:text-[2.4rem] md:text-[3.2rem] mb-[1.6rem] text-[#1f1b1b]">Price: ${price}</h2>
               <ul class="flex gap-[20px] mt-[2rem] sm:flex-col lg:flex-row">
                 <li id="buy_guitar" class="btn_buy">BUY GUITAR</li>
                 <li id="back_guitar_selection" class="btn_back">${

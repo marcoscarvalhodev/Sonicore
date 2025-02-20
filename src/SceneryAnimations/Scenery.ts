@@ -3,6 +3,10 @@ import Structure from '../Structure/Structure';
 import * as THREE from 'three';
 import { MeshReflectorMaterial } from '../MeshReflectionMaterial';
 import SonicoreLogo from './SonicoreLogo';
+import GUI from 'three/examples/jsm/libs/lil-gui.module.min.js';
+import ScreenSizes from '../Structure/Utils/ScreenSizes';
+
+const {sm} = ScreenSizes();
 
 export default class Scenery {
   public model;
@@ -31,7 +35,18 @@ export default class Scenery {
 
   }
 
- 
+  setGUI() {
+    const gui = new GUI();
+    gui.addFolder('reflector');
+
+    if (this.material) {
+      gui.add(this.material.reflectorProps, 'mixBlur', -1, 1);
+      gui.add(this.material.reflectorProps, 'mixStrength', -5, 5);
+      gui.add(this.material.reflectorProps, 'mirror', -2, 2);
+      gui.add(this.material.reflectorProps, 'mixContrast', -2, 2);
+      gui.add(this.material.reflectorProps, 'depthToBlurRatioBias', -3, 3);
+    }
+  }
 
   setMaterial() {
     this.texture.flipY = false;
@@ -51,8 +66,8 @@ export default class Scenery {
             this.scene,
             child,
             {
-              mixBlur: 1,
-              mixStrength: 0.8,
+              mixBlur: sm? 1 : 0.65,
+              mixStrength: sm ? 0.8: 1.3,
               resolution: 1024,
               blur: [512, 512],
               minDepthThreshold: 0.8,

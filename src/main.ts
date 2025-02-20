@@ -4,6 +4,7 @@ import Nav from './contentResources/Nav.ts';
 import { Characteristics } from './contentResources/Characteristics.ts';
 import Structure from './Structure/Structure.ts';
 import gsap from 'gsap';
+import Songs from './contentResources/Songs.ts';
 
 gsap.set('body', { overflowX: 'hidden' });
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
@@ -14,6 +15,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 `;
 
 new Nav();
+Songs();
 Hero();
 new Characteristics();
 

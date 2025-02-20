@@ -37,7 +37,7 @@ export default class RotateGuitar {
     this.normalizedY = 0;
     this.rotationSpeed = 0.005;
     this.xRotationLimits = { min: -Math.PI / 4, max: Math.PI / 4 };
-    this.targetRotation = new THREE.Euler(); // Initialize target rotation
+    this.targetRotation = new THREE.Euler();
     this.dampingFactor = 0.035;
     this.rotationOffset = 0.1;
 
@@ -122,11 +122,10 @@ export default class RotateGuitar {
     }
 
     if (this.guitar) {
-      // Calculate target rotation based on mouse movement
+    
       const targetYRotation = this.guitar.rotation.y + this.deltaX * 0.2;
       const targetXRotation = this.guitar.rotation.x + this.deltaY * 0.2;
 
-      // Clamp the X rotation within limits
       const clampedXRotation = THREE.MathUtils.clamp(
         targetXRotation,
         this.xRotationLimits.min,
@@ -160,9 +159,9 @@ export default class RotateGuitar {
     if (this.guitar) {
       this.targetRotation.copy(this.guitar.rotation);
       this.targetRotation.y +=
-        this.deltaX * this.rotationSpeed + this.rotationOffset; // Add offset to Y rotation
+        this.deltaX * this.rotationSpeed + this.rotationOffset;
       this.targetRotation.x +=
-        this.deltaY * this.rotationSpeed + this.rotationOffset; // Optionally add offset to X rotation
+        this.deltaY * this.rotationSpeed + this.rotationOffset;
     }
 
     this.animate();
@@ -171,7 +170,7 @@ export default class RotateGuitar {
   animate = () => {
     if (this.isMouseDown) return;
 
-    // Smoothly transition to the target rotation using lerp
+  
     if (this.guitar) {
       this.guitar.rotation.x = THREE.MathUtils.lerp(
         this.guitar.rotation.x,
