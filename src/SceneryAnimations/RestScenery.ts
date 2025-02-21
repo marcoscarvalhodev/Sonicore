@@ -1,4 +1,4 @@
-import { Mesh, MeshStandardMaterial } from 'three';
+import { Mesh, MeshPhysicalMaterial, MeshStandardMaterial } from 'three';
 import Structure from '../Structure/Structure';
 
 export default class RestScenery {
@@ -19,9 +19,20 @@ export default class RestScenery {
         child instanceof Mesh &&
         child.material instanceof MeshStandardMaterial
       ) {
-        child.material.setValues({
-          map: this.texture,
-        });
+        if (child.name === 'rest-scenery') {
+          child.material.setValues({
+            map: this.texture,
+          });
+        } else {
+          child.material = new MeshPhysicalMaterial({
+            color: "#203569",
+            transparent: true,
+            opacity: 0.8,
+            roughness: 0.1,
+            metalness: 0.1,
+            transmission: 1.0,
+          });
+        }
       }
     });
 
