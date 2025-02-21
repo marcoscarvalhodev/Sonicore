@@ -26,11 +26,11 @@ export default class Nav {
   }
 
   setNav() {
-    const navEl = `<nav class=" w-full py-[2rem] flex items-center justify-between">
+    const navEl = `<nav class=" w-full flex items-center justify-between flex-wrap">
     
-    <h1 class="sm:text-[2.4rem] md:text-[3.2rem] text-[#1f1b1b]">Sonicore</h1> 
+    <img class="sm:w-[16rem] md:w-[24rem] my-[2.8rem]" src="/svg/sonicore_logo.svg"/>
     
-    <ul class="flex gap-[1.6rem]">
+    <ul class="flex gap-[1.6rem] flex-wrap">
 
     <li >
     <div >
