@@ -1,8 +1,8 @@
 import * as THREE from 'three';
-import Throttle from '../Structure/Utils/Throttle';
 import { Object3DEventMap } from 'three';
 import ViewPositioner from './ViewPositioner';
 import gsap from 'gsap';
+
 export default class RotateGuitar {
   public viewPositioner;
   public isMouseDown;
@@ -12,7 +12,6 @@ export default class RotateGuitar {
   public deltaY;
   public rotationSpeed;
   public xRotationLimits;
-  public throttle;
   public targetRotation;
   public dampingFactor;
   public rotationOffset;
@@ -41,16 +40,14 @@ export default class RotateGuitar {
     this.dampingFactor = 0.035;
     this.rotationOffset = 0.1;
 
-    window.addEventListener('mousedown', this.setMouseDown);
-    window.addEventListener('touchstart', this.setMouseDown);
+    window.addEventListener('mousedown', this.onMouseDown);
+    window.addEventListener('touchstart', this.onTouchStart);
 
-    this.throttle = new Throttle(this.setMouseMove, 50);
+    window.addEventListener('mousemove', this.onMouseMove);
+    window.addEventListener('touchmove', this.onTouchMove);
 
-    window.addEventListener('mousemove', this.throttle.setThrottle);
-    window.addEventListener('touchmove', this.throttle.setThrottle);
-
-    window.addEventListener('mouseup', this.setMouseUp);
-    window.addEventListener('touchend', this.setMouseUp);
+    window.addEventListener('mouseup', this.onMouseUp);
+    window.addEventListener('touchend', this.onTouchEnd);
 
     this.viewPositioner.on('guitar_out_camera', () => {
       this.setDispose();
@@ -98,62 +95,27 @@ export default class RotateGuitar {
     }
   }
 
-  setMouseDown = (event: MouseEvent | TouchEvent) => {
-    if (event instanceof TouchEvent) {
-      const touch = event.touches[0];
-      this.previousMousePosition.set(touch.clientX, touch.clientY);
-    } else {
-      this.previousMousePosition.set(event.clientX, event.clientY);
-    }
-
+  onMouseDown = (event: MouseEvent ) => {
+    this.previousMousePosition.set(event.clientX, event.clientY);
     this.isMouseDown = true;
   };
 
-  setMouseMove = (event: MouseEvent | TouchEvent | undefined) => {
-    if (!this.isMouseDown) return;
+  onMouseMove = (event: MouseEvent) => {
+    if (!this.isMouseDown || !this.guitar) return;
 
-    if (event instanceof TouchEvent) {
-      const touch = event.touches[0];
-      this.deltaX = touch.clientX - this.previousMousePosition.x;
-      this.deltaY = touch.clientY - this.previousMousePosition.y;
-    } else if (event instanceof MouseEvent) {
-      this.deltaX = event.clientX - this.previousMousePosition.x;
-      this.deltaY = event.clientY - this.previousMousePosition.y;
-    }
+    this.deltaX = event.clientX - this.previousMousePosition.x;
+    this.deltaY = event.clientY - this.previousMousePosition.y;
 
-    if (this.guitar) {
-    
-      const targetYRotation = this.guitar.rotation.y + this.deltaX * 0.2;
-      const targetXRotation = this.guitar.rotation.x + this.deltaY * 0.2;
+    const targetYRotation = this.guitar.rotation.y + this.deltaX * 0.2;
+    const targetXRotation = this.guitar.rotation.x + this.deltaY * 0.2;
 
-      const clampedXRotation = THREE.MathUtils.clamp(
-        targetXRotation,
-        this.xRotationLimits.min,
-        this.xRotationLimits.max
-      );
+    this.guitar.rotation.y = THREE.MathUtils.lerp(this.guitar.rotation.y, targetYRotation, this.dampingFactor);
+    this.guitar.rotation.x = THREE.MathUtils.lerp(this.guitar.rotation.x, targetXRotation, this.dampingFactor);
 
-      // Smoothly transition to the target rotation using lerp
-      this.guitar.rotation.y = THREE.MathUtils.lerp(
-        this.guitar.rotation.y,
-        targetYRotation,
-        this.dampingFactor
-      );
-      this.guitar.rotation.x = THREE.MathUtils.lerp(
-        this.guitar.rotation.x,
-        clampedXRotation,
-        this.dampingFactor
-      );
-    }
-
-    if (event instanceof TouchEvent) {
-      const touch = event.touches[0];
-      this.previousMousePosition.set(touch.clientX, touch.clientY);
-    } else if (event instanceof MouseEvent) {
-      this.previousMousePosition.set(event.clientX, event.clientY);
-    }
+    this.previousMousePosition.set(event.clientX, event.clientY);
   };
 
-  setMouseUp = () => {
+  onMouseUp = () => {
     this.isMouseDown = false;
 
     if (this.guitar) {
@@ -166,6 +128,43 @@ export default class RotateGuitar {
 
     this.animate();
   };
+
+  onTouchStart = (event: TouchEvent) => {
+    const touch = event.touches[0];
+    this.previousMousePosition.set(touch.clientX, touch.clientY);
+    this.isMouseDown = true;
+  };
+
+  onTouchMove = (event: TouchEvent) => {
+    if (!this.isMouseDown || !this.guitar) return;
+
+    const touch = event.touches[0];
+    this.deltaX = touch.clientX - this.previousMousePosition.x;
+    this.deltaY = touch.clientY - this.previousMousePosition.y;
+
+    const targetYRotation = this.guitar.rotation.y + this.deltaX * 0.2;
+    const targetXRotation = this.guitar.rotation.x + this.deltaY * 0.2;
+
+    this.guitar.rotation.y = THREE.MathUtils.lerp(this.guitar.rotation.y, targetYRotation, this.dampingFactor);
+    this.guitar.rotation.x = THREE.MathUtils.lerp(this.guitar.rotation.x, targetXRotation, this.dampingFactor);
+
+    this.previousMousePosition.set(touch.clientX, touch.clientY);
+  };
+
+  onTouchEnd = () => {
+    this.isMouseDown = false;
+
+    if (this.guitar) {
+      this.targetRotation.copy(this.guitar.rotation);
+      this.targetRotation.y +=
+        this.deltaX * this.rotationSpeed + this.rotationOffset;
+      this.targetRotation.x +=
+        this.deltaY * this.rotationSpeed + this.rotationOffset;
+    }
+
+    this.animate();
+  };
+
 
   animate = () => {
     if (this.isMouseDown) return;
@@ -186,13 +185,13 @@ export default class RotateGuitar {
   };
 
   setDispose() {
-    window.removeEventListener('mousedown', this.setMouseDown);
-    window.removeEventListener('mousemove', this.setMouseMove);
-    window.removeEventListener('mouseup', this.setMouseUp);
+    window.removeEventListener('mousedown', this.onMouseDown);
+    window.removeEventListener('mousemove', this.onMouseMove);
+    window.removeEventListener('mouseup', this.onMouseUp);
 
-    window.removeEventListener('touchstart', this.setMouseDown);
-    window.removeEventListener('touchmove', this.setMouseMove);
-    window.removeEventListener('touchend', this.setMouseUp);
+    window.removeEventListener('touchstart', this.onTouchStart);
+    window.removeEventListener('touchmove', this.onTouchMove);
+    window.removeEventListener('touchend', this.onTouchEnd);
   }
 
   update() {
