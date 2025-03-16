@@ -34,7 +34,7 @@ export default class RotateGuitar {
     this.normalizedZ = 0;
     this.normalizedX = 0;
     this.normalizedY = 0;
-    this.rotationSpeed = 0.005;
+    this.rotationSpeed = 0.001;
     this.xRotationLimits = { min: -Math.PI / 4, max: Math.PI / 4 };
     this.targetRotation = new THREE.Euler();
     this.dampingFactor = 0.035;
@@ -95,7 +95,7 @@ export default class RotateGuitar {
     }
   }
 
-  onMouseDown = (event: MouseEvent ) => {
+  onMouseDown = (event: MouseEvent) => {
     this.previousMousePosition.set(event.clientX, event.clientY);
     this.isMouseDown = true;
   };
@@ -109,8 +109,20 @@ export default class RotateGuitar {
     const targetYRotation = this.guitar.rotation.y + this.deltaX * 0.2;
     const targetXRotation = this.guitar.rotation.x + this.deltaY * 0.2;
 
-    this.guitar.rotation.y = THREE.MathUtils.lerp(this.guitar.rotation.y, targetYRotation, this.dampingFactor);
-    this.guitar.rotation.x = THREE.MathUtils.lerp(this.guitar.rotation.x, targetXRotation, this.dampingFactor);
+    this.guitar.rotation.y = THREE.MathUtils.lerp(
+      this.guitar.rotation.y,
+      targetYRotation,
+      this.dampingFactor
+    );
+    this.guitar.rotation.x = THREE.MathUtils.lerp(
+      this.guitar.rotation.x,
+      THREE.MathUtils.clamp(
+        targetXRotation,
+        this.xRotationLimits.min,
+        this.xRotationLimits.max
+      ),
+      this.dampingFactor
+    );
 
     this.previousMousePosition.set(event.clientX, event.clientY);
   };
@@ -145,8 +157,20 @@ export default class RotateGuitar {
     const targetYRotation = this.guitar.rotation.y + this.deltaX * 0.2;
     const targetXRotation = this.guitar.rotation.x + this.deltaY * 0.2;
 
-    this.guitar.rotation.y = THREE.MathUtils.lerp(this.guitar.rotation.y, targetYRotation, this.dampingFactor);
-    this.guitar.rotation.x = THREE.MathUtils.lerp(this.guitar.rotation.x, targetXRotation, this.dampingFactor);
+    this.guitar.rotation.y = THREE.MathUtils.lerp(
+      this.guitar.rotation.y,
+      targetYRotation,
+      this.dampingFactor
+    );
+    this.guitar.rotation.x = THREE.MathUtils.lerp(
+      this.guitar.rotation.x,
+      THREE.MathUtils.clamp(
+        targetXRotation,
+        this.xRotationLimits.min,
+        this.xRotationLimits.max
+      ),
+      this.dampingFactor
+    );
 
     this.previousMousePosition.set(touch.clientX, touch.clientY);
   };
@@ -165,11 +189,9 @@ export default class RotateGuitar {
     this.animate();
   };
 
-
   animate = () => {
     if (this.isMouseDown) return;
 
-  
     if (this.guitar) {
       this.guitar.rotation.x = THREE.MathUtils.lerp(
         this.guitar.rotation.x,

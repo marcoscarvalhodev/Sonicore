@@ -22,6 +22,7 @@ export default class ViewPositioner extends EventEmitter {
   public rotateGuitar: null | RotateGuitar;
   public scrollPosition;
   public structure;
+  public cameraEnded;
 
   constructor(structure: Structure) {
     super();
@@ -33,13 +34,23 @@ export default class ViewPositioner extends EventEmitter {
     this.guitarMove = true;
     this.rotateGuitar = null;
     this.scrollPosition = 0;
+    this.cameraEnded = false;
+    this.checkCameraPosition();
   }
+
+  checkCameraPosition = () => {
+    if (this.targetPosition.z < (sm ? -31 : -24)) {
+      this.cameraEnded = true;
+    }
+  };
 
   moveToView(
     object: THREE.Object3D<Object3DEventMap> | null,
     initialPosition: THREE.Vector3 | null
   ) {
-    if (initialPosition && this.targetPosition.z < (sm ? -31 : -24) && object) {
+    this.checkCameraPosition();
+
+    if (initialPosition && this.cameraEnded && object) {
       this.gsap
         .timeline()
         .to(object.position, {
