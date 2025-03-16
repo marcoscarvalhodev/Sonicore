@@ -7,6 +7,10 @@ import GuitarSpecifications from '../contentResources/GuitarSpecifications';
 import GuitarBuy from './GuitarBuy';
 import gsap from 'gsap';
 
+import ScreenSizes from '../Structure/Utils/ScreenSizes';
+
+const { sm } = ScreenSizes();
+
 export default class GuitarWall {
   public gsap;
   public model;
@@ -27,6 +31,9 @@ export default class GuitarWall {
   public guitarSpecifications: null | GuitarSpecifications;
   public currentGuitar: null | THREE.Object3D;
   public guitarBuy: null | GuitarBuy;
+  public boundSetGuitarHover: (event: MouseEvent) => void;
+  public cameraEnded;
+
   constructor(structure: Structure) {
     this.structure = structure;
     this.camera = structure.camera.instance;
@@ -102,17 +109,18 @@ export default class GuitarWall {
       { guitar_texture: null },
       { guitar_texture: this.loaders.guitar_wall_texture_rough_14 },
     ];
-
+    this.cameraEnded = false;
     this.guitarSpecifications = null;
     this.guitarMove = true;
     this.viewPositioner = new ViewPositioner(structure);
     this.guitarBuy = null;
     this.guitarName = 'default';
+    this.boundSetGuitarHover = () => {};
     this.setTexture();
     this.setModel();
     this.setMaterial();
-    this.setAnimStart();
-
+    this.setGuitarHover();
+    this.setGuitarClick();
     this.raycasterClick = null;
     this.raycasterHover = null;
     this.setGuitarOnCamera();
@@ -122,6 +130,18 @@ export default class GuitarWall {
   setGuitarOnCamera() {
     this.viewPositioner.on('guitar_on_camera', () => {
       this.guitarMove = this.viewPositioner.guitarMove;
+
+      if (!this.guitarMove) {
+        gsap.to(document.body, { cursor: 'grab' });
+
+        document.addEventListener('mousedown', () => {
+          gsap.to(document.body, { cursor: 'grabbing' });
+        });
+
+        document.addEventListener('mouseup', () => {
+          gsap.to(document.body, { cursor: 'grab' });
+        });
+      }
     });
 
     this.viewPositioner.on('guitar_out_camera_complete', () => {
@@ -180,8 +200,38 @@ export default class GuitarWall {
     });
   }
 
-  setAnimStart() {
-    const handleGuitarClick = (guitarName: string) => {
+  updateWithCameraPosition() {
+    if (this.camera.position.z < (sm ? -31 : -24) && !this.cameraEnded) {
+      document.addEventListener('mousemove', this.boundSetGuitarHover);
+      this.cameraEnded = true;
+      console.log('works');
+    }
+
+    if (this.camera.position.z > (sm ? -30 : -23) && this.cameraEnded) {
+      this.cameraEnded = false;
+      document.removeEventListener('mousemove', this.boundSetGuitarHover);
+      console.log('doesnt work');
+    }
+  }
+
+  setGuitarHover() {
+    this.raycasterHover = new RaycasterChecker(this.structure, () => {});
+
+    this.boundSetGuitarHover = this.raycasterHover.setGuitarHover.bind(
+      this.raycasterHover
+    );
+
+    this.viewPositioner.on('guitar_on_camera', () => {
+      document.removeEventListener('mousemove', this.boundSetGuitarHover);
+    });
+
+    this.viewPositioner.on('guitar_out_camera', () => {
+      document.addEventListener('mousemove', this.boundSetGuitarHover);
+    });
+  }
+
+  setGuitarClick() {
+    const handleGuitarRaycaster = (guitarName: string) => {
       this.guitarName = guitarName;
       this.model.forEach((item, index) => {
         item.guitar_model.traverse((child) => {
@@ -204,7 +254,6 @@ export default class GuitarWall {
 
               this.setAnimEnd(child);
               this.setBuyGuitar(child, this.guitarName);
-              
             }
           }
         });
@@ -213,18 +262,23 @@ export default class GuitarWall {
 
     this.raycasterClick = new RaycasterChecker(
       this.structure,
-      handleGuitarClick
+      handleGuitarRaycaster
     );
-    if (this.raycasterClick) {
-      document.addEventListener(
-        'click',
-        this.raycasterClick.setRaycaster.bind(this.raycasterClick)
-      );
-    }
+
+    document.addEventListener(
+      'click',
+      this.raycasterClick.setGuitarClick.bind(this.raycasterClick)
+    );
   }
 
   setBuyGuitar(child: THREE.Object3D, guitarName: string) {
     this.guitarSpecifications?.buyGuitar?.addEventListener('click', () => {
+      //newly added code
+
+      gsap.to(document.body, { cursor: 'default' });
+
+      document.addEventListener('mousemove', this.boundSetGuitarHover);
+
       this.guitarBuy = new GuitarBuy(
         this.structure,
         child,
@@ -266,7 +320,7 @@ export default class GuitarWall {
           ) {
             child.castShadow = true;
           }
-          
+
           if (child.name.startsWith('guitar_metal')) {
             child.material = child.material.clone();
 
@@ -312,5 +366,6 @@ export default class GuitarWall {
 
   update() {
     this.viewPositioner.update();
+    this.updateWithCameraPosition();
   }
 }

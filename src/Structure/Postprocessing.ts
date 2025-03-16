@@ -8,6 +8,7 @@ import {
   BrightnessContrastEffect,
   BloomEffect,
   BlendFunction,
+  OutlineEffect,
 } from 'postprocessing';
 import Structure from './Structure';
 import { HalfFloatType, WebGLRenderer } from 'three';
@@ -28,6 +29,7 @@ export default class Postprocessing {
   public renderPass: null | RenderPass;
   public brightness: null | BrightnessContrastEffect;
   public bloom: null | BloomEffect;
+  public outline: null | OutlineEffect;
 
   constructor(structure: Structure) {
     this.renderer = structure.WGLRenderer.instance;
@@ -40,12 +42,14 @@ export default class Postprocessing {
     this.height = structure.sizes.height;
     this.brightness = null;
     this.bloom = null;
+    this.outline = null;
 
     this.composer = null;
     this.renderPass = null;
     this.SetComposer();
     this.setBloom();
     this.SetToneMapping();
+    this.SetOutlineEffect();
   }
 
   SetComposer() {
@@ -62,13 +66,27 @@ export default class Postprocessing {
       mipmapBlur: true,
       intensity: 1.5,
       luminanceThreshold: 1,
-      
     });
 
     const bloomPass = new EffectPass(this.camera, this.bloom);
     this.composer?.addPass(bloomPass);
+  }
 
-    
+  SetOutlineEffect() {
+    this.outline = new OutlineEffect(this.scene, this.camera, {
+      blendFunction: BlendFunction.SCREEN,
+      multisampling: 4,
+      edgeStrength: 10,
+      pulseSpeed: 0.2,
+      visibleEdgeColor: 0xB8860B,
+      hiddenEdgeColor: 0xB8860B,
+      height: 480,
+      blur: false,
+      xRay: false,
+    });
+
+    const outlinePass = new EffectPass(this.camera, this.outline);
+    this.composer?.addPass(outlinePass);
   }
 
   SetToneMapping() {

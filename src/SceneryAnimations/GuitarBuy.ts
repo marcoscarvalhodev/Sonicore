@@ -93,6 +93,8 @@ export default class GuitarBuy extends EventEmitter {
             castShadow: false,
             duration: 1.7
           })
+
+          
         })  
       },
       onComplete: () => {
