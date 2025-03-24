@@ -54,7 +54,7 @@ export default class Postprocessing {
 
   SetComposer() {
     this.composer = new EffectComposer(this.renderer as WebGLRenderer, {
-      multisampling: sm ? 4 : 8,
+      multisampling: sm ? 1 : 8,
       frameBufferType: HalfFloatType,
     });
     this.renderPass = new RenderPass(this.scene, this.camera);
@@ -62,31 +62,35 @@ export default class Postprocessing {
   }
 
   setBloom() {
-    this.bloom = new BloomEffect({
-      mipmapBlur: true,
-      intensity: 1.5,
-      luminanceThreshold: 1,
-    });
+    if (!sm) {
+      this.bloom = new BloomEffect({
+        mipmapBlur: true,
+        intensity: 1.5,
+        luminanceThreshold: 1,
+      });
 
-    const bloomPass = new EffectPass(this.camera, this.bloom);
-    this.composer?.addPass(bloomPass);
+      const bloomPass = new EffectPass(this.camera, this.bloom);
+      this.composer?.addPass(bloomPass);
+    }
   }
 
   SetOutlineEffect() {
-    this.outline = new OutlineEffect(this.scene, this.camera, {
-      blendFunction: BlendFunction.SCREEN,
-      multisampling: 4,
-      edgeStrength: 10,
-      pulseSpeed: 0.2,
-      visibleEdgeColor: 0xB8860B,
-      hiddenEdgeColor: 0xB8860B,
-      height: 480,
-      blur: false,
-      xRay: false,
-    });
+    if (!sm) {
+      this.outline = new OutlineEffect(this.scene, this.camera, {
+        blendFunction: BlendFunction.SCREEN,
+        multisampling: 1,
+        edgeStrength: 10,
+        pulseSpeed: 0.2,
+        visibleEdgeColor: 0xb8860b,
+        hiddenEdgeColor: 0xb8860b,
+        height: 480,
+        blur: false,
+        xRay: false,
+      });
 
-    const outlinePass = new EffectPass(this.camera, this.outline);
-    this.composer?.addPass(outlinePass);
+      const outlinePass = new EffectPass(this.camera, this.outline);
+      this.composer?.addPass(outlinePass);
+    }
   }
 
   SetToneMapping() {
@@ -97,12 +101,6 @@ export default class Postprocessing {
 
     const toneMappingPass = new EffectPass(this.camera, this.toneMappingEffect);
     this.composer?.addPass(toneMappingPass);
-  }
-
-  SetFxaaPass() {
-    this.fxaaEffect = new FXAAEffect({ blendFunction: BlendFunction.NORMAL });
-    const fxaaPass = new EffectPass(this.camera, this.fxaaEffect);
-    this.composer?.addPass(fxaaPass);
   }
 
   PostRender() {

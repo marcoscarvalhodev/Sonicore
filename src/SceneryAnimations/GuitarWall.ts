@@ -125,6 +125,8 @@ export default class GuitarWall {
     this.raycasterHover = null;
     this.setGuitarOnCamera();
     this.currentGuitar = null;
+
+    
   }
 
   setGuitarOnCamera() {
@@ -204,13 +206,13 @@ export default class GuitarWall {
     if (this.camera.position.z < (sm ? -31 : -24) && !this.cameraEnded) {
       document.addEventListener('mousemove', this.boundSetGuitarHover);
       this.cameraEnded = true;
-      console.log('works');
+    
     }
 
     if (this.camera.position.z > (sm ? -30 : -23) && this.cameraEnded) {
       this.cameraEnded = false;
       document.removeEventListener('mousemove', this.boundSetGuitarHover);
-      console.log('doesnt work');
+      
     }
   }
 
