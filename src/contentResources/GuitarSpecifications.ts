@@ -112,7 +112,7 @@ export default class GuitarSpecifications {
       ({ type }) => type === this.guitarName
     ).map(
       ({ name }) =>
-        `<div class='px-[2.4rem] flex gap-[1.2rem] items-center'><h1 class="sm:text-[2rem] md:text-[3.2rem] text-[#11742a]">This ${name.replace(
+        `<div class='px-[2.4rem] flex gap-[1.2rem] items-center'><h1 class="sm:text-[2rem] md:text-[3.2rem] text-white">This ${name.replace(
           ' Guitar',
           ''
         )} is all yours</h1><img src="./svg/icon-check.svg" class="sm:w-[2.8rem] md:w-[4rem] h-[40px]"/></div>`

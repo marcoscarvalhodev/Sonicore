@@ -26,7 +26,7 @@ export default class MobileContent {
   setShowGuitarClickMessage() {
     const showMessageHTML = `
     <div class="show-message-guitar flex flex-col absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] justify-center opacity-0 pointer-events-none w-[30rem]">
-          <h1 class="text-[2.4rem]">Click on one of the guitars to visualize it</h1>
+          <h1 class="text-[2.4rem] text-[#ffffff]">Click on one of the guitars to visualize it</h1>
       </div>`;
 
     this.showMessage.innerHTML = showMessageHTML;
