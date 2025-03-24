@@ -23,12 +23,12 @@ export default class Camera {
 
   setInstance() {
     this.instance = new THREE.PerspectiveCamera(
-      sm ? 90 : md ? 60 : 40,
+      sm ? 100 : md ? 60 : 40,
       this.sizes.width / this.sizes.height,
       0.1,
       1000
     );
-    this.instance.position.set(-2, 10, sm || md ? 20 : lg ? 32 : 24);
+    this.instance.position.set(-2, 10, sm ? 15 : md ? 20 : lg ? 32 : 24);
 
     this.instance.updateProjectionMatrix();
 

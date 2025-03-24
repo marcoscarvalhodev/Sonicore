@@ -83,7 +83,7 @@ export default class MainGuitar {
         this.model.position.set(
           sm || md ? 1 : 4,
           10,
-          sm ? 12 : md ? 9 : lg ? 16 : 8
+          sm ? 7 : md ? 9 : lg ? 16 : 8
         );
 
         this.model.castShadow = true;

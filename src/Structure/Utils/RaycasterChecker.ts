@@ -45,7 +45,7 @@ export default class RaycasterClick {
 
   setGuitarClick(event: MouseEvent) {
 
-    console.log('working')
+  
     this.setRaycaster(event);
 
     if (this.intersects) {

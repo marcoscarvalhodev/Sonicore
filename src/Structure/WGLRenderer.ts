@@ -1,6 +1,10 @@
 import * as THREE from 'three';
 import Structure from './Structure';
 
+import ScreenSizes from './Utils/ScreenSizes';
+
+const { sm } = ScreenSizes();
+
 export default class WGLRenderer {
   public canvas;
   public scene;
@@ -25,11 +29,10 @@ export default class WGLRenderer {
       antialias: false,
     });
 
-    this.instance.shadowMap.enabled = true;
+    this.instance.shadowMap.enabled = sm ? false : true;
     this.instance.outputColorSpace = THREE.SRGBColorSpace;
     this.instance.shadowMap.type = THREE.PCFSoftShadowMap;
     this.instance.setSize(this.sizes.width, this.sizes.height);
-    
   }
 
   resize() {

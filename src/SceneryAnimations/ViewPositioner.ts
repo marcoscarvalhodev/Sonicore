@@ -6,6 +6,7 @@ import RotateGuitar from './RotateGuitar';
 import { Object3DEventMap } from 'three';
 import ScreenSizes from '../Structure/Utils/ScreenSizes';
 import ScrollTrigger from 'gsap/ScrollTrigger';
+import MobileContent from '../contentResources/MobileContent';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -23,6 +24,7 @@ export default class ViewPositioner extends EventEmitter {
   public scrollPosition;
   public structure;
   public cameraEnded;
+  public mobileContent;
 
   constructor(structure: Structure) {
     super();
@@ -36,6 +38,16 @@ export default class ViewPositioner extends EventEmitter {
     this.scrollPosition = 0;
     this.cameraEnded = false;
     this.checkCameraPosition();
+    this.mobileContent = new MobileContent();
+  }
+
+  checkCameraOnLoop() {
+    if (sm && this.targetPosition.z < -31 && !this.cameraEnded) {
+      this.mobileContent.setShowGuitarClickMessage();
+      console.log('working')
+
+      this.cameraEnded = true;
+    }
   }
 
   checkCameraPosition = () => {
@@ -105,5 +117,6 @@ export default class ViewPositioner extends EventEmitter {
   update() {
     this.targetPosition = new THREE.Vector3().copy(this.camera.position);
     this.rotateGuitar?.update();
+    this.checkCameraOnLoop();
   }
 }
