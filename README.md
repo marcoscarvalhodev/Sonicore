@@ -5,6 +5,27 @@ The idea of this guitar store came from my passion for music, especially rock an
 <br>
 <br>
 
+![sonicore_1](https://github.com/user-attachments/assets/a5639709-c7c3-41ab-9b86-47ba6d35743c)
+
+<br>
+
+![sonicore_3](https://github.com/user-attachments/assets/5b74001a-9a08-4d53-8985-cfac52422227)
+
+<br>
+
+![sonicore_4](https://github.com/user-attachments/assets/37bb1b27-cc91-4783-8c58-bbacf2a03d04)
+
+<br>
+
+![sonicore_5](https://github.com/user-attachments/assets/5981879c-68e6-4740-a81e-c4e0e7cb2ed3)
+
+
+<br>
+
+
+
+
+
 ## Installation Instructions
 
 **Clone** - You can clone this repository with:
